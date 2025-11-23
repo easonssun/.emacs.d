@@ -1,6 +1,8 @@
 (use-package evil
   :ensure t
-  :init (evil-mode))
+  :init (evil-mode)
+  :custom
+  (evil-undo-system 'undo-redo))
 (use-package evil-surround
   :ensure t
   :init (global-evil-surround-mode 1))

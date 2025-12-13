@@ -2,11 +2,16 @@
   :hook 
   (go-mode . eglot-ensure)
   (js-mode . eglot-ensure)
+  (c-mode . eglot-ensure)
+  (c++-mode . eglot-ensure)
   :init
   (setq read-process-output-max (* 1024 1024)) ; 1MB
   (setq eglot-autoshutdown t
       eglot-events-buffer-size 0
-      eglot-send-changes-idle-time 0.1))
+      eglot-send-changes-idle-time 0.1)
+  :config
+  (add-to-list 'eglot-server-programs '((c++-mode c-mode) "clangd")))
+
 
 (use-package consult-eglot
   :after consult eglot

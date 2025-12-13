@@ -158,7 +158,7 @@
   :ensure t
   :custom
   (corfu-auto t)
-  (corfu-auto-prefix 3)
+  (corfu-auto-prefix 1)
   (corfu-preview-current nil)
   (corfu-auto-delay 0.2)
   (corfu-popupinfo-delay '(0.4 . 0.2))

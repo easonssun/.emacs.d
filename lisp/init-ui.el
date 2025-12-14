@@ -9,13 +9,6 @@
 (setq mouse-wheel-scroll-amount '(1 ((shift) . 1) ((control) . nil)))
 (setq mouse-wheel-progressive-speed nil)
 
-;; Initial frame
-(setq initial-frame-alist '((top . 0.5)
-                            (left . 0.5)
-                            (width . 0.7)
-                            (height . 0.85)
-                            (fullscreen)))
-
 ;; line numbers
 (global-display-line-numbers-mode 1)
 (setq display-line-numbers-type 'relative)

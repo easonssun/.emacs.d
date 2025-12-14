@@ -8,6 +8,7 @@
   :init
   ;; 启用 Evil 全局
   (setq evil-want-integration t)                ; 与 Emacs minor modes 集成
+  (setq evil-want-keybinding nil)
   ;;(setq evil-want-keybinding nil)               ; 不使用 Evil 自带键绑定（避免冲突）
   (setq evil-search-module 'evil-search)        ; 必须！支持 gn / cgn
   (setq evil-respect-visual-line-mode t)        ; 在 visual-line-mode 中按行移动
@@ -21,9 +22,20 @@
   (defvar evil-insert-state-cursor 'bar)
   (defvar evil-replace-state-cursor 'bar)
   (defvar evil-motion-state-cursor 'hollow))
+
+;; evil-collection
+(use-package evil-collection
+  :after evil
+  :ensure t
+  :config
+  (evil-collection-init))
+
+;; surround
 (use-package evil-surround
   :ensure t
   :init (global-evil-surround-mode 1))
+
+;; visaulstar
 (use-package evil-visualstar
   :ensure t
   :init (global-evil-visualstar-mode))

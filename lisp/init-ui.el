@@ -1,4 +1,3 @@
-(setq inhibit-startup-screen t)
 (set-frame-font "FiraCode Nerd Font")
 
 ;; 更改显示字体大小 16pt
@@ -45,5 +44,28 @@
   :init (doom-modeline-mode 1)
   :config
   (setq doom-modeline-height 50))
+
+;; 配置 Popper
+(use-package popper
+  :ensure t
+  :bind (("C--" . popper-toggle)  ; 将 Ctrl+` 绑定为开关弹窗
+         ("M--" . popper-cycle))  ; 循环切换弹窗
+  :init
+  (setq popper-reference-buffers
+    '("\\*Messages\\*"
+	"Output\\*$"
+	"\\*Async Shell Command\\*"
+	"^\\*Copilot"
+	"^\\*.*eshell.*\\*$" eshell-mode ;eshell as a popup
+	"^\\*.*shell.*\\*$"  shell-mode  ;shell as a popup
+	"^\\*.*term.*\\*$"   term-mode   ;term as a popup
+	"^\\*.*vterm.*\\*$"  vterm-mode  ;vterm as a popup
+	help-mode
+	magit-status-mode
+	"COMMIT_EDITMSG"                       ;; exact match
+	git-commit-ts-mode
+	compilation-mode))
+    (popper-mode +1)
+    (popper-echo-mode +1))
 
 (provide 'init-ui)

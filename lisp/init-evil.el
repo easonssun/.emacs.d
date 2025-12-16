@@ -17,7 +17,7 @@
   :config
   (evil-mode 1)
     ;; Vim 风格光标
-  (defvar evil-normal-state-cursor 'box)
+  (defvar evil-normal-state-cursor 'hbox)
   (defvar evil-visual-state-cursor 'box)
   (defvar evil-insert-state-cursor 'bar)
   (defvar evil-replace-state-cursor 'bar)

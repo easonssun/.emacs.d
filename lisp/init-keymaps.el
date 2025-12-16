@@ -13,13 +13,11 @@
     :non-normal-prefix "M-,")
 
   (general-def
-    "C-c t" 'multi-vterm          ; 全局打开/切换多终端
-    "C-c n" 'multi-vterm-next     ; 切换到下一个终端
-    "C-c p" 'multi-vterm-prev)     ; 切换到上一个终端
+    "C-x C-b" 'ibuffer)     ; 使用 ibuffer
 
   (general-def
    :states 'normal
-   "gh" 'eldoc-box-position-function
+   "gh" 'eldoc-mouse-pop-doc-at-cursor
    "C-u" 'evil-scroll-up
    "C-d" 'evil-scroll-down)
 

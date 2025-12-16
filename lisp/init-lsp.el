@@ -5,6 +5,7 @@
   (c-mode . eglot-ensure)
   (c++-mode . eglot-ensure)
   :init
+  (setq completion-ignore-case t)      ;company-capf匹配时不区分大小写
   (setq read-process-output-max (* 1024 1024)) ; 1MB
   (setq eglot-autoshutdown t
       eglot-events-buffer-size 0
@@ -18,14 +19,21 @@
   :bind (:map eglot-mode-map
         ("C-M-." . consult-eglot-symbols)))
 
-(use-package eldoc-box
+(use-package eldoc-mouse
   :ensure t
-  ;; 设置 eldoc 显示为弹出框形式
-  :init
-  (eldoc-box-hover-at-point-mode 1)
-  :hook
-  (eglot--managed-mode . eldoc-box-hover-at-point-mode)
-  (eldoc-mode . eldoc-box-hover-at-point-mode))
+  ;; enable mouse hover for eglot managed buffers, and emacs lisp buffers. ;; optional
+  :hook (eglot-managed-mode emacs-lisp-mode))
+
+;;(use-package eldoc-box
+  ;;:ensure t
+  ;;;; 设置 eldoc 显示为弹出框形式
+  ;;:init
+  ;;(eldoc-box-hover-at-point-mode 1)
+  ;;:hook
+  ;;(eglot--managed-mode . eldoc-box-hover-at-point-mode)
+  ;;(eldoc-mode . eldoc-box-hover-at-point-mode))
+
+
 
 
 ;;(use-package lsp-mode

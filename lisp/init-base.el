@@ -1,6 +1,7 @@
 ;; setup
 (setq make-backup-files nil)                 
 (fset 'yes-or-no-p 'y-or-n-p)
+(setq select-enable-clipboard nil)
 
 ;;; And I have tried
 (setq indent-tabs-mode nil)

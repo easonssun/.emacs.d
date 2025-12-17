@@ -60,8 +60,10 @@
 (use-package popper
   :ensure t
   :bind (("C--" . popper-toggle)  ; 将 Ctrl+- 绑定为开关弹窗
-         ("M--" . popper-cycle))  ; 循环切换弹窗
+         ("M--" . popper-cycle)  ; 循环切换弹窗
+         ("M-=" . popper-cycle-backwards))  ; 循环切换弹窗
   :init
+  (setq popper-window-height 20)
   (setq popper-reference-buffers
     '("\\*Messages\\*"
 	"Output\\*$"
@@ -70,15 +72,16 @@
 	"^\\*.*eshell.*\\*$" eshell-mode ;eshell as a popup
 	"^\\*.*shell.*\\*$"  shell-mode  ;shell as a popup
 	"^\\*.*term.*\\*$"   term-mode   ;term as a popup
+	"^\\*.*eat.*\\*$"   eat-mode   ;term as a popup
 	"^\\*.*vterm.*\\*$"  vterm-mode  ;vterm as a popup
 	"^\\*Buffer List.*\\*$"
+	"\\*Ibuffer.*\\*" ibuffer-mode ;ibuffer-mode
 	help-mode
 	magit-status-mode
 	"COMMIT_EDITMSG"                       ;; exact match
 	git-commit-ts-mode
 	compilation-mode))
-    (popper-mode +1)
-    (popper-echo-mode +1))
+    (popper-mode +1))
 
 (defun set-bigger-spacing ()                                               
   (interactive)

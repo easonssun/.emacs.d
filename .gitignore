@@ -6,6 +6,7 @@ amx-items
 /transient
 /eshell
 .lsp-session-v1
+!eshell/alias
 notes
 recentf
 tramp

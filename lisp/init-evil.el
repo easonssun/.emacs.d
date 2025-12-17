@@ -45,6 +45,11 @@
 (add-hook 'evil-normal-state-entry-hook
           (lambda ()
             (call-process "fcitx5-remote" nil 0 nil "-c")))  ; -c 表示关闭输入法（英文状态）
+(use-package evil-commentary
+  :ensure t
+  :after evil
+  :config
+  (evil-commentary-mode))
 ;; (global-set-key (kbd "C-SPC") (lambda () (call-process "fcitx5-remote" nil 0 nil "-o")))
 
 (provide 'init-evil)

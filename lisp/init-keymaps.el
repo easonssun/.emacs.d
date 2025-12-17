@@ -13,6 +13,13 @@
     :non-normal-prefix "M-,")
 
   (general-def
+    :keymaps 'eat-mode-map
+    :states 'insert
+    "C--"  'popper-toggle
+    "M--"  'popper-cycle)
+  ;; (define-key eat-mode-map (kbd "M--")     #'popper-cycle)
+
+  (general-def
     "C-x C-b" 'ibuffer)     ; 使用 ibuffer
 
   (general-def

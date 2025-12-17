@@ -4,7 +4,7 @@ amx-items
 /eln-cache
 /elpa
 /transient
-/eshell
+eshell/
 .lsp-session-v1
 !eshell/alias
 notes

@@ -42,6 +42,8 @@
      "M-g k"  'consult-global-mark
      "M-g i"  'consult-imenu
      "M-g I"  'consult-imenu-multi
+     "M-g w"  'ace-window
+     "M-g t"  'centaur-tabs-ace-jump
      ; M-s bindings in `search-map'
      "M-s f"  'consult-find                  ;; Alternative: consult-fd
      "M-s c"  'consult-locate
@@ -59,6 +61,9 @@
   (general-def
     :keymaps 'eat-mode-map
     :states 'insert
+    "M-g w"  'ace-window
+    "C-w C-w"  'other-window
+    "C-w c"  'delete-window
     "C--"  'popper-toggle
     "M--"  'popper-cycle)
   ;; (define-key eat-mode-map (kbd "M--")     #'popper-cycle)
@@ -77,6 +82,11 @@
    "Y" 'clipboard-kill-ring-save)
 
   (general-def
+    :states '(normal visual)
+    "C-M-n" 'evil-mc-make-and-goto-next-match
+    "C-M-m" 'evil-mc-skip-and-goto-next-match)
+
+  (general-def
    :states 'insert
    "C-v" 'clipboard-yank
    "C-a" 'beginning-of-line
@@ -84,6 +94,7 @@
    "C-k" 'kill-line
    "C-u" 'evil-delete-back-to-indentation
    "C-d" 'delete-char)
+
 
   )
 

@@ -8,8 +8,8 @@
   (setq completion-ignore-case t)      ;company-capf匹配时不区分大小写
   (setq read-process-output-max (* 1024 1024)) ; 1MB
   (setq eglot-autoshutdown t
-      eglot-events-buffer-size 0
-      eglot-send-changes-idle-time 0.1)
+      ;; eglot-send-changes-idle-time 0.1
+      eglot-events-buffer-size 0)
   :config
   (add-to-list 'eglot-server-programs '((c++-mode c-mode) "clangd")))
 

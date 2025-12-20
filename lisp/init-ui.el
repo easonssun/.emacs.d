@@ -18,7 +18,19 @@
   :ensure t
   :hook (prog-mode . rainbow-delimiters-mode))
 
-(use-package nerd-icons)
+(use-package nerd-icons
+  :ensure t)
+
+(use-package dashboard
+  :ensure t
+  :config
+  ;; (setq dashboard-banner-logo-title "~/.emacs.d/logo.svg")
+  (setq dashboard-startup-banner "~/.emacs.d/logo.svg")
+  (setq dashboard-icon-type 'nerd-icons)
+  (setq dashboard-set-heading-icons t)
+  (setq dashboard-set-file-icons t)
+  (dashboard-setup-startup-hook))
+
 
 ;; (load-theme 'wombat)
 (use-package doom-themes
@@ -48,6 +60,8 @@
 (use-package centaur-tabs
   :ensure t
   :demand
+  :hook
+  (dashboard-mode . centaur-tabs-local-mode)
   :config
   (centaur-tabs-mode t)
   (setq centaur-tabs-height 50)

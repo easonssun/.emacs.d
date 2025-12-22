@@ -3,8 +3,18 @@
   ;;:init (evil-mode)
   ;;:custom
   ;;(evil-undo-system 'undo-redo))
+
+;; (global-unset-key (kbd "C-SPC"))
+;; (add-hook 'emacs-startup-hook (lambda () (call-process "fcitx5-remote -e && fcitx5-remote -t")))  ; Linux（Fcitx）
+;; (add-hook 'evil-insert-state-exit-hook
+;;           (lambda ()
+;;             (call-process "fcitx5-remote" nil 0 nil "-c")))  ; -c 表示关闭输入法（英文状态）
+
 (use-package evil
   :ensure t
+  :hook
+  (evil-insert-state-exit . (lambda ()
+				   (call-process "fcitx5-remote" nil 0 nil "-c")))
   :init
   ;; 启用 Evil 全局
   (setq evil-want-integration t)                ; 与 Emacs minor modes 集成
@@ -43,11 +53,6 @@
   :ensure t
   :init (global-evil-visualstar-mode))
 
-(global-unset-key (kbd "C-SPC"))
-;; (add-hook 'emacs-startup-hook (lambda () (call-process "fcitx5-remote -e && fcitx5-remote -t")))  ; Linux（Fcitx）
-(add-hook 'evil-normal-state-entry-hook
-          (lambda ()
-            (call-process "fcitx5-remote" nil 0 nil "-c")))  ; -c 表示关闭输入法（英文状态）
 (use-package evil-commentary
   :ensure t
   :after evil

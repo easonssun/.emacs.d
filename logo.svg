@@ -1,0 +1,9 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- 背景圆 -->
+  <circle cx="100" cy="100" r="95" fill="#0f3d5e" stroke="#1e81b0" stroke-width="2"/>
+  <!-- 大括号 -->
+  <path d="M 70,60 C 40,100 40,100 70,140 M 130,60 C 160,100 160,100 130,140"
+        stroke="#7fdbff" stroke-width="12" stroke-linecap="round" fill="none"/>
+  <!-- 中心点 (隐喻光标) -->
+  <circle cx="100" cy="100" r="8" fill="#ff851b"/>
+</svg>

@@ -18,6 +18,32 @@
   :ensure t
   :hook (prog-mode . rainbow-delimiters-mode))
 
+;; whitespace mode 显示制表符
+(use-package whitespace
+  :config
+  ;; 1. 配置显示的样式
+  (setq whitespace-style '(tabs tab-mark spaces space-mark))
+  
+  ;; 2. 配制符号映射
+  ;; 这里将 Tab (ASCII 9) 映射为 » (Unicode 187)
+  ;; 如果你希望空格也显示，可以取消下面关于 space-mark 的注释
+  (setq-default tab-width 2)
+  (setq whitespace-display-mappings
+        '(
+          (tab-mark 9 [187 9])       ; Tab 显示为 »
+          ;;(space-mark 32 [183])     ; Space 显示为 · (中间点)
+          ;;(space-mark 160 [164])    ; Non-breaking space 显示为 ¤
+          ))
+
+  ;; 3. 自定义颜色（可选）
+  ;; 默认颜色可能太刺眼，设置为深灰色或柔和的颜色
+  (set-face-attribute 'whitespace-tab nil
+                      :background "#414243"  ; 背景色（与你的主题匹配）
+                      :foreground "#414243")  ; 前景色（符号颜色，例如红色）
+
+  ;; 4. 全局开启
+  (global-whitespace-mode 1))
+
 (use-package nerd-icons
   :ensure t)
 
@@ -64,6 +90,7 @@
   (dashboard-mode . centaur-tabs-local-mode)
   :config
   (centaur-tabs-mode t)
+  (setq centaur-tabs-cycle-scope 'tabs)
   (setq centaur-tabs-height 50)
   (setq centaur-tabs-set-icons t)
   (setq centaur-tabs-icon-type 'nerd-icons)  ; or 'nerd-icons
@@ -80,21 +107,21 @@
   (setq popper-window-height 20)
   (setq popper-reference-buffers
     '("\\*Messages\\*"
-	"Output\\*$"
-	"\\*Async Shell Command\\*"
-	"^\\*Copilot"
-	"^\\*.*eshell.*\\*$" eshell-mode ;eshell as a popup
-	"^\\*.*shell.*\\*$"  shell-mode  ;shell as a popup
-	"^\\*.*term.*\\*$"   term-mode   ;term as a popup
-	"^\\*.*eat.*\\*$"   eat-mode   ;term as a popup
-	"^\\*.*vterm.*\\*$"  vterm-mode  ;vterm as a popup
-	"^\\*Buffer List.*\\*$"
-	"\\*Ibuffer.*\\*" ibuffer-mode ;ibuffer-mode
-	help-mode
-	magit-status-mode
-	"COMMIT_EDITMSG"                       ;; exact match
-	git-commit-ts-mode
-	compilation-mode))
+      "Output\\*$"
+      "\\*Async Shell Command\\*"
+      "^\\*Copilot"
+      "^\\*.*eshell.*\\*$" eshell-mode ;eshell as a popup
+      "^\\*.*shell.*\\*$"  shell-mode  ;shell as a popup
+      "^\\*.*term.*\\*$"   term-mode   ;term as a popup
+      "^\\*.*eat.*\\*$"   eat-mode   ;term as a popup
+      "^\\*.*vterm.*\\*$"  vterm-mode  ;vterm as a popup
+      "^\\*Buffer List.*\\*$"
+      "\\*Ibuffer.*\\*" ibuffer-mode ;ibuffer-mode
+      help-mode
+      magit-status-mode
+      "COMMIT_EDITMSG"                       ;; exact match
+      git-commit-ts-mode
+      compilation-mode))
     (popper-mode +1))
 
 (defun set-bigger-spacing ()                                               

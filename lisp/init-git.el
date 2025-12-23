@@ -27,10 +27,10 @@
   (diff-hl-draw-borders nil)
   (diff-hl-update-async t)
   (diff-hl-global-modes '(not image-mode pdf-view-mode))
-  :init
+  :config
+  ;; 区分 staged 和 unstaged
   (setq diff-hl-show-staged-changes nil)
   (setq diff-hl-reference-revision nil)
-  :config
   ;; Set fringe style
   (setq-default fringes-outside-margins t)
 

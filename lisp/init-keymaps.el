@@ -61,6 +61,14 @@
     "M-s e"  'consult-isearch-history
     )
 
+  (general-def 
+    :states 'insert
+    :keymaps 'eshell-mode-map
+    ;; "C-u" 'evil-delete-back-to-indentation
+    "C-p" 'eshell-previous-matching-input-from-input ; 搜索历史
+    "C-n" 'eshell-next-matching-input-from-input   ; 搜索历史
+    "C-r" 'consult-history)
+
   (general-def
     :keymaps 'eat-mode-map
     :states 'insert

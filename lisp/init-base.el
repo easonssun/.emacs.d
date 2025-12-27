@@ -4,8 +4,8 @@
 (setq select-enable-clipboard nil)
 
 ;;; And I have tried
-(setq indent-tabs-mode nil)
-(setq tab-width 2)
+(setq-default indent-tabs-mode nil)
+(setq-default tab-width 2)
 
 ;; (defun word-syntax- ()
 ;;   (interactive)

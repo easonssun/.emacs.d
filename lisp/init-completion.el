@@ -1,4 +1,4 @@
-;;; init-completion.el --- Initialize completion configurations.	-*- lexical-binding: t -*-
+;; init-completion.el --- Initialize completion configurations.	-*- lexical-binding: t -*-
 
 ;; Optionally use the `orderless' completion style.
 (use-package orderless
@@ -125,7 +125,16 @@
   :bind
   ("M-/" . completion-at-point)
   :hook ((after-init . global-corfu-mode)
-         (global-corfu-mode . corfu-popupinfo-mode)))
+         (global-corfu-mode . corfu-popupinfo-mode))
+  :config
+  (keymap-set corfu-map "RET"
+              `(menu-item "" nil :filter
+                          ,(lambda (&optional _)
+                             ;; 如果当前是 eshell 或 comint 模式，返回 nil (忽略 corfu 绑定)
+                             ;; 否则返回 corfu-send (执行 corfu 的补全确认)
+                             (unless (derived-mode-p 'eshell-mode 'comint-mode)
+                               #'corfu-send))))
+  )
 
 (unless (display-graphic-p)
   (use-package corfu-terminal

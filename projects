@@ -1,2 +1,3 @@
 ;;; -*- lisp-data -*-
-(("/home/ballentin/.emacs.d/"))
+(("/home/ballentin/.emacs.d/") ("/home/ballentin/Projects/cjson/")
+ ("/home/ballentin/Demos/make-demo/"))

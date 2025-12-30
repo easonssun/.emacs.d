@@ -14,13 +14,13 @@
 
   (general-def
     ;; C-x bindings in `ctl-x-map'
+    "C-x r" 'projectile-switch-project     ; 使用 ibuffer
     "C-x C-b" 'ibuffer     ; 使用 ibuffer
     "C-x M-:" 'consult-complex-command     ;; orig. repeat-complex-command
     "C-x b" 'consult-buffer                ;; orig. switch-to-buffer
     "C-x 4 b" 'consult-buffer-other-window ;; orig. switch-to-buffer-other-window
     "C-x 5 b" 'consult-buffer-other-frame  ;; orig. switch-to-buffer-other-frame
     "C-x t b" 'consult-buffer-other-tab    ;; orig. switch-to-buffer-other-tab
-    "C-x r b" 'consult-bookmark            ;; orig. bookmark-jump
     "C-x p b" 'consult-project-buffer      ;; orig. project-switch-to-buffer
     "C-x C-k" 'centaur-tabs-kill-all-buffers-in-current-group
     ;; Custom M-# bindings for fast register access
@@ -36,6 +36,7 @@
 
     "M-y"  'consult-yank-pop                ;; orig. yank-pop
     ; M-g bindings in `goto-map'
+    "M-g b" 'consult-bookmark            ;; orig. bookmark-jump
     "M-g e"  'consult-compile-error
     "M-g f"  'consult-flymake               ;; Alternative: consult-flycheck
     "M-g g"  'consult-goto-line             ;; orig. goto-line
@@ -48,7 +49,7 @@
     "M-g t"  'centaur-tabs-ace-jump
     "M-g p"  'consult-projectile
     ; M-s bindings in `search-map'
-    "M-s f"  'consult-find                  ;; Alternative: consult-fd
+    "M-s f"  'consult-fd                  ;; Alternative: consult-fd
     "M-s c"  'consult-locate
     "M-s g"  'consult-grep
     "M-s G"  'consult-git-grep
@@ -59,6 +60,12 @@
     "M-s u"  'consult-focus-lines
     ; Isearch integration
     "M-s e"  'consult-isearch-history
+
+    "M-<" 'centaur-tabs-backward-group
+    "M->" 'centaur-tabs-forward-group
+    "C->" 'centaur-tabs-forward-tab
+    "C-<" 'centaur-tabs-backward-tab
+    "C-M-k" 'bookmark-delete
     )
 
   (general-def 
@@ -68,6 +75,17 @@
     "C-p" 'eshell-previous-matching-input-from-input ; 搜索历史
     "C-n" 'eshell-next-matching-input-from-input   ; 搜索历史
     "C-r" 'consult-history)
+
+  (general-def 
+    ;; :states '(normal insert visual)
+    :keymaps 'capf-autosuggest-active-mode-map
+    "C-f" 'capf-autosuggest-end-of-line)
+
+  (general-def
+    :keymaps 'dired-mode-map
+    :states '(normal insert visual)
+    "C-a" 'dired-create-empty-file
+    "C-d" 'dired-create-directory)
 
   (general-def
     :keymaps 'eat-mode-map
@@ -96,14 +114,17 @@
   (general-def
     :states 'normal
     "gh" 'eldoc-mouse-pop-doc-at-cursor
-    "[t" 'centaur-tabs-backward-group
-    "]t" 'centaur-tabs-forward-group
-    "C->" 'centaur-tabs-forward-tab
-    "C-<" 'centaur-tabs-backward-tab
     ;; "]b" 'centaur-tabs-forward-tab
     ;; "[b" 'centaur-tabs-backward-tab
     "C-u" 'evil-scroll-up
     "C-d" 'evil-scroll-down)
+
+  (general-def
+    :keymaps 'minuet-active-mode-map
+    :states 'insert
+    "<TAB>" 'minuet-accept-suggestion
+    "M-p" 'minuet-previous-suggestion
+    "M-n" 'minuet-next-suggestion)
 
   (general-def
     :states 'visual

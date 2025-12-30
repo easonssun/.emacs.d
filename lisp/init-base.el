@@ -7,6 +7,8 @@
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 2)
 
+(global-hl-line-mode t)
+
 ;; (defun word-syntax- ()
 ;;   (interactive)
 ;;   (modify-syntax-entry ?- "w"))

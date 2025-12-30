@@ -15,12 +15,14 @@
   :config
   ;; 定义一个全局前缀键 "SPC"
   (general-create-definer my-leader-def
-    :prefix "SPC"
-    :non-normal-prefix "M-SPC")
+    :prefix "SPC")
 
   (general-create-definer my-local-leader-def
-    :prefix ","
-    :non-normal-prefix "M-,")
+    :prefix ",")
+
+  (my-leader-def
+    :states 'normal
+    "f" 'eglot-format)
 
   (general-def
     ;; C-x bindings in `ctl-x-map'
@@ -75,7 +77,10 @@
     "M->" 'centaur-tabs-forward-group
     "C->" 'centaur-tabs-forward-tab
     "C-<" 'centaur-tabs-backward-tab
+
     "C-M-k" 'bookmark-delete
+    "C--" 'popper-toggle
+    "M--" 'popper-cycle
     )
 
   (general-def 

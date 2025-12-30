@@ -100,9 +100,9 @@
 ;; 配置 Popper
 (use-package popper
   :ensure t
-  :bind (("C--" . popper-toggle)  ; 将 Ctrl+- 绑定为开关弹窗
-         ("M--" . popper-cycle)  ; 循环切换弹窗
-         ("M-=" . popper-cycle-backwards))  ; 循环切换弹窗
+  ;; :bind (("C--" . popper-toggle)  ; 将 Ctrl+- 绑定为开关弹窗
+  ;;        ("M--" . popper-cycle)  ; 循环切换弹窗
+  ;;        ("M-=" . popper-cycle-backwards))  ; 循环切换弹窗
   :init
   (setq popper-window-height 20)
   (setq popper-reference-buffers

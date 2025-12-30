@@ -1,3 +1,13 @@
+(defun custom/downcase-back()
+  (interactive)
+  (downcase-word -1))
+(defun custom/upcase-back()
+  (interactive)
+  (upcase-word -1))
+(defun custom/capitalize-back()
+  (interactive)
+  (capitalize-word -1))
+
 ;; 使用 use-package 安装并加载 general.el
 (use-package general
   :after evil
@@ -142,7 +152,11 @@
     "C-e" 'end-of-line
     "C-k" 'kill-line
     "C-u" 'evil-delete-back-to-indentation
-    "C-d" 'delete-char)
+    "C-d" 'delete-char
+    "M-u" 'custom/upcase-back
+    "M-l" 'custom/downcase-back
+    "M-c" 'custom/capitalize-back
+    )
 
   )
 

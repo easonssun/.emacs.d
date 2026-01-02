@@ -49,6 +49,7 @@
     "C-c e" 'eshell
 
     "M-y"  'consult-yank-pop                ;; orig. yank-pop
+    "M-i"  'compile
     ; M-o bindings in `open-map'
     ;; "M-o e" 'eshell
     ;; "M-o t" 'eat
@@ -81,8 +82,9 @@
     ; Isearch integration
     "M-s e"  'consult-isearch-history
 
-    "M-<" 'centaur-tabs-backward-group
-    "M->" 'centaur-tabs-forward-group
+    ;; use M-g s instead
+    ;; "M-<" 'centaur-tabs-backward-group
+    ;; "M->" 'centaur-tabs-forward-group
     "C->" 'centaur-tabs-forward-tab
     "C-<" 'centaur-tabs-backward-tab
 

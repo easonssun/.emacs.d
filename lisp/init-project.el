@@ -1,11 +1,11 @@
 (use-package projectile
   :ensure t
   :init
-  (projectile-mode +1) ;; 全局启用 Projectile 模式
+  (projectile-mode t) ;; 全局启用 Projectile 模式
   :bind-keymap
   ("C-c p" . projectile-command-map) ;; 设置全局前缀键
   :config
-  ;; (setq projectile-enable-caching t) ;; 启用缓存（通常默认开启，提升性能）
+  (setq projectile-enable-caching t) ;; 启用缓存（通常默认开启，提升性能）
   ;; (setq projectile-indexing-method 'alien) ;; 对于非常大的项目，可尝试 'alien 索引方法
   )
 

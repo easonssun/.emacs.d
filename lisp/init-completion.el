@@ -22,12 +22,14 @@
 (use-package vertico
   :ensure t
   :custom (vertico-count 15)
-  :hook (after-init . vertico-mode)
+  :hook ((after-init . vertico-mode)
+         (vertico-mode . vertico-reverse-mode)
+         (vertico-mode . vertico-multiform-mode))
   :config (setq vertico-cycle t))
 
-(use-package vertico-posframe
-  :ensure t
-  :hook (vertico-mode . vertico-posframe-mode))
+;; (use-package vertico-posframe
+;;   :ensure t
+;;   :hook (vertico-mode . vertico-posframe-mode))
 
 (use-package nerd-icons-completion
   :ensure t
@@ -132,7 +134,8 @@
                           ,(lambda (&optional _)
                              ;; 如果当前是 eshell 或 comint 模式，返回 nil (忽略 corfu 绑定)
                              ;; 否则返回 corfu-send (执行 corfu 的补全确认)
-                             (unless (derived-mode-p 'eshell-mode 'comint-mode)
+                             (unless (or (derived-mode-p 'eshell-mode 'comint-mode)
+                                         (minibufferp))
                                #'corfu-send))))
   )
 

@@ -35,6 +35,7 @@
     "C-x t b" 'consult-buffer-other-tab    ;; orig. switch-to-buffer-other-tab
     "C-x p b" 'consult-project-buffer      ;; orig. project-switch-to-buffer
     "C-x C-k" 'centaur-tabs-kill-all-buffers-in-current-group
+    "C-x C-o" 'centaur-tabs-kill-other-buffers-in-current-group
     ;; Custom M-# bindings for fast register access
     "M-#" 'consult-register-load
     "M-'" 'consult-register-store          ;; orig. abbrev-prefix-mark (unrelated)
@@ -45,8 +46,13 @@
     "C-c k" 'consult-kmacro
     "C-c m" 'consult-man
     "C-c i" 'consult-info
+    "C-c e" 'eshell
 
     "M-y"  'consult-yank-pop                ;; orig. yank-pop
+    ; M-o bindings in `open-map'
+    ;; "M-o e" 'eshell
+    ;; "M-o t" 'eat
+
     ; M-g bindings in `goto-map'
     "M-g b" 'consult-bookmark            ;; orig. bookmark-jump
     "M-g e"  'consult-compile-error
@@ -59,7 +65,9 @@
     "M-g I"  'consult-imenu-multi
     "M-g w"  'ace-window
     "M-g t"  'centaur-tabs-ace-jump
+    "M-g s"  'centaur-tabs-switch-group
     "M-g p"  'consult-projectile
+
     ; M-s bindings in `search-map'
     "M-s f"  'consult-fd                  ;; Alternative: consult-fd
     "M-s c"  'consult-locate

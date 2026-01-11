@@ -46,6 +46,7 @@
   :after evil
   :config
   (evil-commentary-mode))
-;; (global-set-key (kbd "C-SPC") (lambda () (call-process "fcitx5-remote" nil 0 nil "-o")))
+
+(global-set-key (kbd "C-SPC") '(lambda () (interactive) (call-process "fcitx5-remote" nil 0 nil "-o")))
 
 (provide 'init-evil)

@@ -42,7 +42,8 @@
                       :foreground "#414243")  ; 前景色（符号颜色，例如红色）
 
   ;; 4. 全局开启
-  (global-whitespace-mode 1))
+  :hook
+  (prog-mode . whitespace-mode))
 
 (use-package nerd-icons
   :ensure t)

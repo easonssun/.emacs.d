@@ -16,3 +16,4 @@ custom.el
 /bookmarks
 /.mc-lists.el
 /.emacs.rej
+/tree-sitter/

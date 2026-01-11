@@ -1,9 +1,9 @@
 (use-package eglot
   :hook 
-  (go-mode . eglot-ensure)
-  (js-mode . eglot-ensure)
-  (c-mode . eglot-ensure)
-  (c++-mode . eglot-ensure)
+  (go-ts-mode . eglot-ensure)
+  (js-ts-mode . eglot-ensure)
+  (c-ts-mode . eglot-ensure)
+  (c++-ts-mode . eglot-ensure)
   :init
   (setq completion-ignore-case t)      ;company-capf匹配时不区分大小写
   (setq read-process-output-max (* 1024 1024)) ; 1MB

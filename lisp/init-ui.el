@@ -1,8 +1,11 @@
-(set-frame-font "FiraCode Nerd Font")
-
-;; 更改显示字体大小 16pt
-;; http://stackoverflow.com/questions/294664/how-to-set-the-font-size-in-emacs
-;; (set-face-attribute 'default nil :height 160);;
+;; (set-frame-font "-CTDB-FiraCode Nerd Font-medium-normal-normal-*-26-*-*-*-m-0-iso10646-1" nil t)
+;; (set-frame-font "FiraCode Nerd Font" nil t)
+(set-frame-font "JetBrains Mono" nil t)
+;; 开启连体字
+(global-prettify-symbols-mode 1)
+;; 优化字体渲染
+;; (setq-default line-spacing 0.2)  ; 行间距
+(setq-default cursor-type '(bar . 2))  ; 光标样式
 
 ;;让鼠标滚动更好用
 (setq mouse-wheel-scroll-amount '(1 ((shift) . 1) ((control) . nil)))
@@ -11,6 +14,7 @@
 ;; line numbers
 (global-display-line-numbers-mode 1)
 (setq display-line-numbers-type 'relative)
+(setq display-line-numbers-width 4)
 
 ;; auto pair
 (electric-pair-mode t)

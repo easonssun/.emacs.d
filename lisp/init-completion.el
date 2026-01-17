@@ -1,12 +1,10 @@
-;; init-completion.el --- Initialize completion configurations.	-*- lexical-binding: t -*-
+;; init-completion.el 	-*- lexical-binding: t -*-
 
 ;; Optionally use the `orderless' completion style.
-(use-package orderless
-  :ensure t
-  :custom
-  (completion-styles '(orderless basic))
-  (completion-category-defaults nil)
-  (completion-category-overrides '((file (styles basic partial-completion)))))
+(setq completion-styles '(orderless basic))
+(setq completion-category-defaults nil)
+(setq completion-category-overrides '((file (styles basic partial-completion))))
+(require 'orderless)
 
 ;; Support Pinyin
 ;;(use-package pinyinlib
@@ -19,165 +17,137 @@
 ;;  (add-to-list 'orderless-matching-styles 'orderless-regexp-pinyin))
 
 
-(use-package vertico
-  :ensure t
-  :custom (vertico-count 15)
-  :hook ((after-init . vertico-mode)
-         (vertico-mode . vertico-reverse-mode)
-         (vertico-mode . vertico-multiform-mode))
-  :config (setq vertico-cycle t))
+(setq vertico-count 15)
+(require 'vertico)
+(add-hook 'after-init-hook  'vertico-mode)
+(add-hook 'vertico-mode-hook  'vertico-reverse-mode)
+(add-hook 'vertico-mode-hook  'vertico-multiform-mode)
+(setq vertico-cycle t)
 
 ;; (use-package vertico-posframe
 ;;   :ensure t
 ;;   :hook (vertico-mode . vertico-posframe-mode))
 
-(use-package nerd-icons-completion
-  :ensure t
-  :hook (vertico-mode . nerd-icons-completion-mode))
 
-(use-package embark
-  :ensure t
-  :config
-  (global-set-key (kbd "C-;") 'embark-act)
-  (setq prefix-help-command 'embark-prefix-help-command))
+(require 'embark)
+;;(global-set-key (kbd "C-;") 'embark-act)
+(setq prefix-help-command 'embark-prefix-help-command)
 
-(use-package marginalia
-  :ensure t
-  :hook (after-init . marginalia-mode))
+(require 'marginalia)
+(add-hook 'after-init-hook 'marginalia-mode)
 
 ;; Example configuration for Consult
-(use-package consult
-  ;; Replace bindings. Lazily loaded by `use-package'.
-  :ensure t
-  :bind (;; Other custom bindings
-         :map isearch-mode-map
-         ("M-e" . consult-isearch-history)         ;; orig. isearch-edit-string
-         ("M-s e" . consult-isearch-history)       ;; orig. isearch-edit-string
-         ("M-s l" . consult-line)                  ;; needed by consult-line to detect isearch
-         ("M-s L" . consult-line-multi)            ;; needed by consult-line to detect isearch
-         ;; Minibuffer history
-         :map minibuffer-local-map
-         ("M-s" . consult-history)                 ;; orig. next-matching-history-element
-         ("M-r" . consult-history))                ;; orig. previous-matching-history-element
+;; 安装并加载 consult
+;;(unless (package-installed-p 'consult)
+  ;;(package-install 'consult))
 
-  ;; Enable automatic preview at point in the *Completions* buffer. This is
-  ;; relevant when you use the default completion UI.
-  :hook (completion-list-mode . consult-preview-at-point-mode)
+(require 'consult)
 
-  ;; The :init configuration is always executed (Not lazy)
-  :init
+;; 设置键绑定
+;;(define-key isearch-mode-map (kbd "M-e") 'consult-isearch-history)
+;;(define-key isearch-mode-map (kbd "M-s e") 'consult-isearch-history)
+;;(define-key isearch-mode-map (kbd "M-s l") 'consult-line)
+;;(define-key isearch-mode-map (kbd "M-s L") 'consult-line-multi)
+;;(define-key minibuffer-local-map (kbd "M-s") 'consult-history)
+;;(define-key minibuffer-local-map (kbd "M-r") 'consult-history)
 
-  ;; Tweak the register preview for `consult-register-load',
-  ;; `consult-register-store' and the built-in commands.  This improves the
-  ;; register formatting, adds thin separator lines, register sorting and hides
-  ;; the window mode line.
-  (advice-add #'register-preview :override #'consult-register-window)
-  (setq register-preview-delay 0.5)
+;; Enable automatic preview at point in the *Completions* buffer.
+(add-hook 'completion-list-mode-hook 'consult-preview-at-point-mode)
 
-  ;; Use Consult to select xref locations with preview
-  (setq xref-show-xrefs-function #'consult-xref
-        xref-show-definitions-function #'consult-xref)
+;; Tweak the register preview
+(advice-add #'register-preview :override #'consult-register-window)
+(setq register-preview-delay 0.5)
 
-  ;; Configure other variables and modes in the :config section,
-  ;; after lazily loading the package.
-  :config
+;; Use Consult to select xref locations with preview
+(setq xref-show-xrefs-function #'consult-xref
+      xref-show-definitions-function #'consult-xref)
 
-  ;; Optionally configure preview. The default value
-  ;; is 'any, such that any key triggers the preview.
-  ;; (setq consult-preview-key 'any)
-  ;; (setq consult-preview-key "M-.")
-  ;; (setq consult-preview-key '("S-<down>" "S-<up>"))
-  ;; For some commands and buffer sources it is useful to configure the
-  ;; :preview-key on a per-command basis using the `consult-customize' macro.
-  (consult-customize
-   consult-theme :preview-key '(:debounce 0.2 any)
-   consult-ripgrep consult-git-grep consult-grep consult-man
-   consult-bookmark consult-recent-file consult-xref
-   consult--source-bookmark consult--source-file-register
-   consult--source-recent-file consult--source-project-recent-file
-   ;; :preview-key "M-."
-   :preview-key '(:debounce 0.4 any))
+;; Configure preview
+;;(consult-customize
+ ;;consult-theme :preview-key '(:debounce 0.2 any)
+ ;;consult-ripgrep consult-git-grep consult-grep consult-man
+ ;;consult-bookmark consult-recent-file consult-xref
+ ;;consult--source-bookmark consult--source-file-register
+ ;;consult--source-recent-file consult--source-project-recent-file
+ ;;:preview-key '(:debounce 0.4 any))
 
-  ;; Optionally configure the narrowing key.
-  ;; Both < and C-+ work reasonably well.
-  (setq consult-narrow-key "<") ;; "C-+"
+;; Optionally configure the narrowing key.
+(setq consult-narrow-key "<")
 
-  ;; Optionally make narrowing help available in the minibuffer.
-  ;; You may want to use `embark-prefix-help-command' or which-key instead.
-  ;; (keymap-set consult-narrow-map (concat consult-narrow-key " ?") #'consult-narrow-help)
-)
+;; 安装并加载 embark-consult
+;;(unless (package-installed-p 'embark-consult)
+  ;;(package-install 'embark-consult))
 
-(use-package embark-consult
-  :ensure t
-  :bind (:map minibuffer-mode-map
-         ("C-c C-o" . embark-export))
-  :hook (embark-collect-mode . consult-preview-at-point-mode))
+(require 'embark-consult)
+(define-key minibuffer-mode-map (kbd "C-c C-o") 'embark-export)
+(add-hook 'embark-collect-mode-hook 'consult-preview-at-point-mode)
 
-;; Auto completion
-(use-package corfu
-  :ensure t
-  :custom
-  (corfu-auto t)
-  (corfu-auto-prefix 1)
-  (corfu-preview-current nil)
-  (corfu-auto-delay 0.2)
-  (corfu-popupinfo-delay '(0.4 . 0.2))
-  :custom-face
-  (corfu-border ((t (:inherit region :background unspecified))))
-  :bind
-  ("M-/" . completion-at-point)
-  :hook ((after-init . global-corfu-mode)
-         (global-corfu-mode . corfu-popupinfo-mode))
-  :config
-  (keymap-set corfu-map "RET"
-              `(menu-item "" nil :filter
-                          ,(lambda (&optional _)
-                             ;; 如果当前是 eshell 或 comint 模式，返回 nil (忽略 corfu 绑定)
-                             ;; 否则返回 corfu-send (执行 corfu 的补全确认)
-                             (unless (or (derived-mode-p 'eshell-mode 'comint-mode)
-                                         (minibufferp))
-                               #'corfu-send))))
-  )
+;; Auto completion - corfu
+;;(unless (package-installed-p 'corfu)
+  ;;(package-install 'corfu))
 
+(require 'corfu)
+
+;; 设置 corfu 变量
+(setq corfu-auto t)
+(setq corfu-auto-prefix 1)
+(setq corfu-preview-current nil)
+(setq corfu-auto-delay 0.2)
+(setq corfu-popupinfo-delay '(0.4 . 0.2))
+
+;; 设置 corfu 字体
+(custom-set-faces
+ '(corfu-border ((t (:inherit region :background unspecified)))))
+
+;; 设置键绑定
+(global-set-key (kbd "M-/") 'completion-at-point)
+
+;; 启用 corfu 模式
+(add-hook 'after-init-hook 'global-corfu-mode)
+(add-hook 'global-corfu-mode-hook 'corfu-popupinfo-mode)
+
+;; corfu 配置
+(keymap-set corfu-map "RET"
+            `(menu-item "" nil :filter
+                        ,(lambda (&optional _)
+                           ;; 如果当前是 eshell 或 comint 模式，返回 nil (忽略 corfu 绑定)
+                           ;; 否则返回 corfu-send (执行 corfu 的补全确认)
+                           (unless (or (derived-mode-p 'eshell-mode 'comint-mode)
+                                       (minibufferp))
+                             #'corfu-send))))
+
+;; corfu-terminal
 (unless (display-graphic-p)
-  (use-package corfu-terminal
-    :ensure t
-    :hook (global-corfu-mode . corfu-terminal-mode)))
+  ;;(unless (package-installed-p 'corfu-terminal)
+    ;;(package-install 'corfu-terminal))
+  (require 'corfu-terminal)
+  (add-hook 'global-corfu-mode-hook 'corfu-terminal-mode))
 
-;; A few more useful configurations...
-(use-package emacs
-  :custom
-  ;; TAB cycle if there are only few candidates
-  ;; (completion-cycle-threshold 3)
+;; Emacs 原生配置
+;; TAB cycle if there are only few candidates
+;; (setq completion-cycle-threshold 3)
 
-  ;; Enable indentation+completion using the TAB key.
-  ;; `completion-at-point' is often bound to M-TAB.
-  ;; (tab-always-indent 'complete)
+;; Enable indentation+completion using the TAB key.
+;; `completion-at-point' is often bound to M-TAB.
+;; (setq tab-always-indent 'complete)
 
-  ;; Emacs 30 and newer: Disable Ispell completion function. As an alternative,
-  ;; try `cape-dict'.
-  (text-mode-ispell-word-completion nil)
+;; Emacs 30 and newer: Disable Ispell completion function.
+(setq text-mode-ispell-word-completion nil)
 
-  ;; Emacs 28 and newer: Hide commands in M-x which do not apply to the current
-  ;; mode.  Corfu commands are hidden, since they are not used via M-x. This
-  ;; setting is useful beyond Corfu.
-  (read-extended-command-predicate #'command-completion-default-include-p))
+;; Emacs 28 and newer: Hide commands in M-x which do not apply to the current mode.
+(setq read-extended-command-predicate #'command-completion-default-include-p)
 
-(use-package nerd-icons-corfu
-  :ensure t
-  :after corfu
-  :init (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter))
+;; Add extensions - cape
+;;(unless (package-installed-p 'cape)
+;;  (package-install 'cape))
 
-;; Add extensions
-(use-package cape
-  :ensure t
-  :init
-  (add-to-list 'completion-at-point-functions #'cape-dabbrev)
-  (add-to-list 'completion-at-point-functions #'cape-file)
-  (add-to-list 'completion-at-point-functions #'cape-elisp-block)
-  (add-to-list 'completion-at-point-functions #'cape-keyword)
-  (add-to-list 'completion-at-point-functions #'cape-abbrev)
+(require 'cape)
+(add-to-list 'completion-at-point-functions #'cape-dabbrev)
+(add-to-list 'completion-at-point-functions #'cape-file)
+(add-to-list 'completion-at-point-functions #'cape-elisp-block)
+(add-to-list 'completion-at-point-functions #'cape-keyword)
+(add-to-list 'completion-at-point-functions #'cape-abbrev)
 
-  (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster))
+(advice-add 'eglot-completion-at-point :around #'cape-wrap-buster)
 
 (provide 'init-completion)

@@ -17,3 +17,4 @@ custom.el
 /.mc-lists.el
 /.emacs.rej
 /tree-sitter/
+/straight/

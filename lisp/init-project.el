@@ -1,20 +1,21 @@
-(use-package projectile
-  :ensure t
-  :init
-  (projectile-mode t) ;; 全局启用 Projectile 模式
-  :bind-keymap
-  ("C-c p" . projectile-command-map) ;; 设置全局前缀键
-  :config
-  (setq projectile-enable-caching t) ;; 启用缓存（通常默认开启，提升性能）
-  ;; (setq projectile-indexing-method 'alien) ;; 对于非常大的项目，可尝试 'alien 索引方法
-  )
+;; init-project.el 	-*- lexical-binding: t -*-
 
-(use-package consult-projectile
-  :ensure t
-  :after (projectile consult) ;; 确保在 projectile 和 consult 之后加载
-  :config
-  ;; 你可以在这里进行自定义配置，例如绑定快捷键
-  )
+;; 确保 projectile 包已安装并加载
+(require 'projectile)
+;; 全局启用 Projectile 模式
+(projectile-mode t)
+;; 设置全局前缀键
+(define-key global-map (kbd "C-c p") projectile-command-map)
+;; 启用缓存（通常默认开启，提升性能）
+(setq projectile-enable-caching t)
+;; (setq projectile-indexing-method 'alien) ;; 对于非常大的项目，可尝试 'alien 索引方法
+
+;; 在 projectile 和 consult 之后加载 consult-projectile
+(eval-after-load 'projectile
+  '(progn
+    (require 'consult-projectile)))
+
+;; 你可以在这里进行自定义配置，例如绑定快捷键
 
 (defun my/find-project-root (&optional directory)
   "向上查找包含特定标记文件的目录，作为项目根目录。

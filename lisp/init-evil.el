@@ -1,52 +1,119 @@
-(use-package evil
-  :ensure t
-  :hook
-  (evil-insert-state-exit . (lambda ()
-           (call-process "fcitx5-remote" nil 0 nil "-c")))
-  :init
-  ;; 启用 Evil 全局
-  (setq evil-want-integration t)                ; 与 Emacs minor modes 集成
-  (setq evil-want-keybinding nil)
-  (setq evil-shift-width 2)
-  ;;(setq evil-want-keybinding nil)               ; 不使用 Evil 自带键绑定（避免冲突）
-  (setq evil-search-module 'evil-search)        ; 必须！支持 gn / cgn
-  (setq evil-respect-visual-line-mode t)        ; 在 visual-line-mode 中按行移动
-  (setq evil-cross-lines t)                     ; j/k 可跨软换行行（类似 Vim）
-  (setq evil-undo-system 'undo-redo)            ; 使用 Emacs 的 undo-tree 或简易 undo-redo
-  :config
-  (evil-mode 1)
-  ;; (modify-syntax-entry ?_ "b")
-  ;; (modify-syntax-entry ?_ "e")
-    ;; Vim 风格光标
-  (defvar evil-normal-state-cursor 'hbox)
-  (defvar evil-visual-state-cursor 'box)
-  (defvar evil-insert-state-cursor 'bar)
-  (defvar evil-replace-state-cursor 'bar)
-  (defvar evil-motion-state-cursor 'hollow))
+;; init-evil.el 	-*- lexical-binding: t -*-
+;; 启用 Evil 全局配置
+(setq evil-want-integration t)                ; 与 Emacs minor modes 集成
+(setq evil-want-keybinding nil)
+(setq evil-shift-width 2)
+(setq evil-search-module 'evil-search)        ; 必须！支持 gn / cgn
+(setq evil-respect-visual-line-mode t)        ; 在 visual-line-mode 中按行移动
+(setq evil-cross-lines t)                     ; j/k 可跨软换行行（类似 Vim）
+(setq evil-undo-system 'undo-redo)            ; 使用 Emacs 的 undo-tree 或简易 undo-redo
 
-;; evil-collection
-(use-package evil-collection
-  :after evil
-  :ensure t
-  :config
-  (evil-collection-init))
+(require 'evil)
+(evil-mode 1)
 
-;; surround
-(use-package evil-surround
-  :ensure t
-  :init (global-evil-surround-mode 1))
+;; (unbind-key "C-u" evil-mode-map)
+;; Vim 风格光标
+(defvar evil-normal-state-cursor 'hbox)
+(defvar evil-visual-state-cursor 'box)
+(defvar evil-insert-state-cursor 'bar)
+(defvar evil-replace-state-cursor 'bar)
+(defvar evil-motion-state-cursor 'hollow)
 
-;; visaulstar
-(use-package evil-visualstar
-  :ensure t
-  :init (global-evil-visualstar-mode))
+;; 添加 evil-insert-state-exit 钩子
+(add-hook 'evil-insert-state-exit-hook
+          (lambda ()
+            (call-process "fcitx5-remote" nil 0 nil "-c")))
 
-(use-package evil-commentary
-  :ensure t
-  :after evil
-  :config
-  (evil-commentary-mode))
+(eval-after-load 'evil
+  '(progn
+      (require 'evil-collection)
+      (evil-collection-init)
+      (require 'evil-surround)
+      (global-evil-surround-mode 1)
+      (require 'evil-visualstar)
+      (global-evil-visualstar-mode)
+      (require 'evil-commentary)
+      (evil-commentary-mode)
+      ))
 
 (global-set-key (kbd "C-SPC") '(lambda () (interactive) (call-process "fcitx5-remote" nil 0 nil "-o")))
+
+
+;; evil-textobj-between
+(defgroup evil-textobj-between nil
+  "Text object between for Evil"
+  :prefix "evil-textobj-between-"
+  :group 'evil)
+
+(defcustom evil-textobj-between-i-key "f"
+  "Keys for evil-inner-between"
+  :type 'string
+  :group 'evil-textobj-between)
+(defcustom evil-textobj-between-a-key "f"
+  "Keys for evil-a-between"
+  :type 'string
+  :group 'evil-textobj-between)
+
+(defun evil-between-range (count beg end type &optional inclusive)
+  (ignore-errors
+    (let ((count (abs (or count 1)))
+          (beg (and beg end (min beg end)))
+          (end (and beg end (max beg end)))
+          (ch (evil-read-key))
+          beg-inc end-inc)
+      (save-excursion
+        (when beg (goto-char beg))
+        (evil-find-char (- count) ch)
+        (setq beg-inc (point)))
+      (save-excursion
+        (when end (goto-char end))
+        (backward-char)
+        (evil-find-char count ch)
+        (setq end-inc (1+ (point))))
+      (if inclusive
+          (evil-range beg-inc end-inc)
+        (if (and beg end (= (1+ beg-inc) beg) (= (1- end-inc) end))
+            (evil-range beg-inc end-inc)
+          (evil-range (1+ beg-inc) (1- end-inc)))))))
+
+(evil-define-text-object evil-a-between (count &optional beg end type)
+  "Select range between a character by which the command is followed."
+  (evil-between-range count beg end type t))
+(evil-define-text-object evil-inner-between (count &optional beg end type)
+  "Select inner range between a character by which the command is followed."
+  (evil-between-range count beg end type))
+
+(define-key evil-outer-text-objects-map evil-textobj-between-a-key
+  'evil-a-between)
+(define-key evil-inner-text-objects-map evil-textobj-between-i-key
+  'evil-inner-between)
+
+;; evil-little-word
+;; Turn on subword-mode everywhere
+(global-subword-mode t)
+;; Backup the original 'forward-evil-word' function before overriding it.
+(fset 'original-forward-evil-word (symbol-function 'forward-evil-word))
+;; From the Evil FAQ.
+;; Defaults all word movements, including editing operations, to 
+;; 'whole symbols', which is what we want by default.
+(defalias #'forward-evil-word #'forward-evil-symbol)
+
+;; custom evil-select-an-object and evil-select-inner-object thing, evil-***
+;; (defun forward-evil-o-word (&optional count)
+;;   "Forward by little words."
+;;   (original-forward-evil-word count))
+
+(evil-define-text-object evil-a-little-word (count &optional beg end type)
+  "Select a little word."
+  ;; (evil-select-an-object 'evil-o-word beg end type count))
+  (evil-select-an-object 'word beg end type count))
+
+(evil-define-text-object evil-inner-little-word (count &optional beg end type)
+  "Select inner little word."
+  ;; (evil-select-inner-object 'evil-o-word beg end type count))
+  (evil-select-inner-object 'word beg end type count))
+
+(define-key evil-outer-text-objects-map (kbd "gw") 'evil-a-little-word)
+(define-key evil-inner-text-objects-map (kbd "gw") 'evil-inner-little-word)
 
 (provide 'init-evil)

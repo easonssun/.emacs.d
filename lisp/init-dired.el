@@ -1,3 +1,4 @@
+;; init-dired.el 	-*- lexical-binding: t -*-
 ;;(setq dired-omit-files-p t) ; 自动隐藏某些文件
 ;;(setq dired-omit-regexp "\\(^\\.[^.]\\|\\(~$\\|\\ .orig$\\|.rej$\\)")
 
@@ -5,42 +6,27 @@
 (setq dired-recursive-deletes 'always
     dired-recursive-copies 'always)
 
+(require 'dired-quick-sort)
 ;; Quick sort dired buffers via hydra
-(use-package dired-quick-sort
-  :ensure t
-  :bind (:map dired-mode-map
-	 ("S" . hydra-dired-quick-sort/body)))
+(define-key dired-mode-map "S" 'hydra-dired-quick-sort/body)
 
+(require 'dired-git-info)
 ;; Show git info in dired
-(use-package dired-git-info
-  :ensure t
-  :bind (:map dired-mode-map
-	  (")" . dired-git-info-mode)))
+(define-key dired-mode-map ")" 'dired-git-info-mode)
 
+(require 'dired-rsync)
 ;; Allow rsync from dired buffers
-(use-package dired-rsync
-  :ensure t
-  :bind (:map dired-mode-map
-	  ("C-c C-r" . dired-rsync)))
+(define-key dired-mode-map (kbd "C-c C-r") 'dired-rsync)
 
+(require 'diredfl)
 ;; Colorful dired
-(use-package diredfl
-  :ensure t
-  :hook (dired-mode . diredfl-mode))
+(add-hook 'dired-mode-hook 'diredfl-mode)
+
+(require 'dired-subtree)
 
 ;; 折叠子目录（类似 ranger）
-(use-package dired-subtree
-  :ensure t
-  :bind (:map dired-mode-map
-              ("<tab>" . dired-subtree-toggle)))
+(define-key dired-mode-map (kbd "TAB") 'dired-subtree-toggle)
 
-(use-package nerd-icons-dired
-  :ensure t
-  :hook
-  (dired-mode . nerd-icons-dired-mode))
-
-(when (executable-find "fd")
-  (use-package fd-dired
-    :ensure t))
+(add-hook 'dired-mode-hook 'nerd-icons-dired-mode)
 
 (provide 'init-dired)

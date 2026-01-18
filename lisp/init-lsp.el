@@ -17,11 +17,8 @@
 (add-to-list 'eglot-server-programs '((c++-ts-mode c-ts-mode) "clangd"))
 
 
-(eval-after-load 'eglot
-  '(progn
-     (require 'consult-eglot)
-     (require 'eldoc-mouse)
-     (add-hook 'eglot-managed-mode-hook 'emacs-lisp-mode)
-     ))
+(with-eval-after-load 'eglot
+  (require 'consult-eglot)
+  (require 'eldoc-mouse))
 
 (provide 'init-lsp)

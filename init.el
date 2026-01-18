@@ -106,6 +106,7 @@
 (require 'init-base)
 (require 'init-evil)
 (require 'init-ui)
+(require 'init-window)
 (require 'init-completion)
 (require 'init-dired)
 (require 'init-git)

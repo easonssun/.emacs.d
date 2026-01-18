@@ -11,9 +11,8 @@
 ;; (setq projectile-indexing-method 'alien) ;; 对于非常大的项目，可尝试 'alien 索引方法
 
 ;; 在 projectile 和 consult 之后加载 consult-projectile
-(eval-after-load 'projectile
-  '(progn
-    (require 'consult-projectile)))
+(with-eval-after-load 'projectile
+    (require 'consult-projectile))
 
 ;; 你可以在这里进行自定义配置，例如绑定快捷键
 

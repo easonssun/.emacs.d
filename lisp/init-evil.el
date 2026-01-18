@@ -24,8 +24,7 @@
           (lambda ()
             (call-process "fcitx5-remote" nil 0 nil "-c")))
 
-(eval-after-load 'evil
-  '(progn
+(with-eval-after-load 'evil
       (require 'evil-collection)
       (evil-collection-init)
       (require 'evil-surround)
@@ -34,7 +33,7 @@
       (global-evil-visualstar-mode)
       (require 'evil-commentary)
       (evil-commentary-mode)
-      ))
+      )
 
 (global-set-key (kbd "C-SPC") '(lambda () (interactive) (call-process "fcitx5-remote" nil 0 nil "-o")))
 

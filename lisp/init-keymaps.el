@@ -13,8 +13,7 @@
   ;;(package-install 'general))
 
 ;; 在 evil 加载后配置 general
-(eval-after-load 'evil
-  '(progn
+(with-eval-after-load 'evil
      ;; 定义一个全局前缀键 "SPC"
      (general-create-definer my-leader-def
        :prefix "SPC")
@@ -28,7 +27,7 @@
 
      (general-def
        ;; C-x bindings in `ctl-x-map'
-       "C-x r" 'projectile-switch-project     ; 使用 ibuffer
+       "C-x C-r" 'projectile-switch-project     ; 使用 ibuffer
        "C-x C-b" 'ibuffer     ; 使用 ibuffer
        "C-x M-:" 'consult-complex-command     ;; orig. repeat-complex-command
        "C-x b" 'consult-buffer                ;; orig. switch-to-buffer
@@ -46,12 +45,17 @@
        "C-c M-x" 'consult-mode-command
        "C-c h" 'consult-history
        "C-c k" 'consult-kmacro
+       "C-c c" 'compile
        "C-c m" 'consult-man
        "C-c i" 'consult-info
        "C-c e" 'eshell
+       "C-c u" 'winner-undo
+       "C-c r" 'winner-redo
 
        "M-y"  'consult-yank-pop                ;; orig. yank-pop
-       "M-i"  'compile
+       "C-:" 'shell-command
+
+       ;; "M-i"  'compile
        ; M-o bindings in `open-map'
        ;; "M-o e" 'eshell
        ;; "M-o t" 'eat
@@ -92,7 +96,7 @@
 
        "C-M-k" 'bookmark-delete
        "C--" 'popper-toggle
-       "M--" 'popper-cycle
+       "C-=" 'popper-cycle
        )
 
      (general-def 
@@ -173,6 +177,6 @@
        "M-u" 'custom/upcase-back
        "M-l" 'custom/downcase-back
        "M-c" 'custom/capitalize-back
-       )))
+       ))
 
 (provide 'init-keymaps)

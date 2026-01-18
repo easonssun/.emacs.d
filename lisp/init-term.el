@@ -45,17 +45,18 @@
 ;; eshell 模式钩子
 (add-hook 'eshell-mode-hook
           (lambda ()
-            (setq eshell-prefer-lisp-functions t
-                  password-cache t
-                  password-cache-expiry 900)
+            (setq eshell-prefer-lisp-functions t)
+            (setq password-cache t)
+            (setq password-cache-expiry 900)
+            ;; (setenv "TERM" "xterm-256color")
             (setq-local truncate-lines -1)
-            (setenv "TERM" "xterm-256color")))
+            ))
 
 (autoload 'eshell-delchar-or-maybe-eof "em-rebind")
 
 ;; eshell-git-prompt 配置
 (custom-set-faces
-'(eshell-git-prompt-multiline2-dir-face ((t (:foreground "#c09035" :bold t)))))
+  '(eshell-git-prompt-multiline2-dir-face ((t (:foreground "#c09035" :bold t)))))
 (eshell-git-prompt-use-theme 'multiline2)
 
 ;; eshell-syntax-highlighting 钩子

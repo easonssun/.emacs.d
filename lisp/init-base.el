@@ -17,7 +17,7 @@
   (setq exec-path-from-shell-shell-name "/bin/bash"))
 
 ;; 记录 M-x 历史
-(add-hook 'after-init 'savehist-mode)
+(add-hook 'after-init-hook 'savehist-mode)
 (setq enable-recursive-minibuffers t)
 (setq history-length 1000)
 (setq savehist-additional-variables '(mark-ring
@@ -28,7 +28,7 @@
 (setq savehist-autosave-interval 300)
 
 ;; 文件历史
-(add-hook 'after-init 'recentf-mode)
+(add-hook 'after-init-hook 'recentf-mode)
 (setq recentf-max-saved-items 300)
 (setq recentf-auto-cleanup 'never)
 (setq recentf-filename-handlers '(abbreviate-file-name))

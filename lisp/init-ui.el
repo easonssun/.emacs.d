@@ -1,4 +1,4 @@
-;; init-ui.el 	-*- lexical-binding: t -*-
+;; init-ui.el   -*- lexical-binding: t -*-
 ;; (set-frame-font "-CTDB-FiraCode Nerd Font-medium-normal-normal-*-26-*-*-*-m-0-iso10646-1" nil t)
 ;; (set-frame-font "FiraCode Nerd Font" nil t)
 (set-frame-font "JetBrains Mono" nil t)
@@ -21,12 +21,10 @@
 (electric-pair-mode t)
 
 ;; rainbow-delimiters
-(require 'rainbow-delimiters)
+;; (require 'rainbow-delimiters)
 (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
 
 ;; whitespace mode 显示制表符
-(require 'whitespace)
-
 ;; 1. 配置显示的样式
 (setq whitespace-style '(tabs tab-mark spaces space-mark))
 
@@ -43,37 +41,66 @@
 
 ;; 3. 自定义颜色（可选）
 ;; 默认颜色可能太刺眼，设置为深灰色或柔和的颜色
-(set-face-attribute 'whitespace-tab nil
-                    :background "#414243"  ; 背景色（与你的主题匹配）
-                    :foreground "#414243")  ; 前景色（符号颜色，例如红色）
+;; (set-face-attribute 'whitespace-tab nil
+;;                     :background "#414243"  ; 背景色（与你的主题匹配）
+;;                     :foreground "#414243")  ; 前景色（符号颜色，例如红色）
 
 ;; 4. 全局开启
 (add-hook 'prog-mode-hook 'whitespace-mode)
 
 ;; nerd-icons
-(require 'nerd-icons)
-(require 'nerd-icons-completion)
-(require 'nerd-icons-corfu)
-(require 'nerd-icons-dired)
+;; (require 'nerd-icons)
+;; (require 'nerd-icons-completion)
+;; (require 'nerd-icons-corfu)
+;; (require 'nerd-icons-dired)
 
 (add-hook 'vertico-mode-hook 'nerd-icons-completion-mode)
 
 ;; dashboard
-(require 'dashboard)
-;; (setq dashboard-banner-logo-title "~/.emacs.d/logo.svg")
-(setq dashboard-startup-banner "~/.emacs.d/logo.svg")
-(setq dashboard-icon-type 'nerd-icons)
-(setq dashboard-set-heading-icons t)
-(setq dashboard-set-file-icons t)
+;; (require 'dashboard)
+(with-eval-after-load 'dashboard
+  (setq dashboard-startup-banner "~/.emacs.d/logo.svg")
+  (setq dashboard-icon-type 'nerd-icons)
+  (setq dashboard-set-heading-icons t)
+  (setq dashboard-set-file-icons t)
+  )
 (dashboard-setup-startup-hook)
 
 ;; (load-theme 'wombat)
 ;; doom-themes
-(require 'doom-themes)
-;; Global settings (defaults)
-(setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
-      doom-themes-enable-italic t) ; if nil, italics is universally disabled
-(load-theme 'doom-one t)
+(with-eval-after-load 'doom-themes
+  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+        doom-themes-enable-italic t) ; if nil, italics is universally disabled
+  )
+
+(defun switch-emacs-theme(theme)
+  "switch emacs theme"
+  "设置主题并永久保存"
+  (interactive
+   (list
+    (intern (completing-read 
+             "选择主题: "
+             (mapcar #'symbol-name
+                     (custom-available-themes))))))
+  
+  ;; 禁用所有已启用的主题
+  (mapc #'disable-theme custom-enabled-themes)
+  
+  ;; 加载新主题
+  (load-theme theme t)
+  
+  ;; 使用customize保存到配置文件
+  (customize-save-variable 'emacs-custom-theme theme)
+  )
+
+(add-hook 'after-init-hook
+  (lambda ()
+    (if (and (boundp 'emacs-cusom-theme)
+             (custom-theme-name-valid-p 'emacs-custom-theme))
+        (load-theme emacs-custom-theme t)
+      (load-theme 'doom-one t))
+    )
+  )
 
 ;; Enable flashing mode-line on errors
 (doom-themes-visual-bell-config)
@@ -87,8 +114,10 @@
 
 ;; doom-modeline
 (require 'doom-modeline)
-(doom-modeline-mode 1)
-(setq doom-modeline-height 50)
+(with-eval-after-load 'doom-modeline
+  (doom-modeline-mode 1)
+  (setq doom-modeline-height 50)
+  )
 
 (defun set-bigger-spacing ()                                               
   (interactive)

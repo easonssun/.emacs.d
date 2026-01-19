@@ -1,5 +1,11 @@
 ;; Defer garbage collection further back in the startup process
 (setq gc-cons-threshold most-positive-fixnum)
+(setq gc-cons-percentage 0.6) ; 可选：当内存使用达到此百分比时也触发GC
+
+(add-hook 'emacs-startup-hook
+          (lambda ()
+            (setq gc-cons-threshold (* 20 1024 1024)) ; 例如设置为 20MB
+            (setq gc-cons-percentage 0.1)))
 
 ;; Prevent unwanted runtime compilation for gccemacs (native-comp) users;
 ;; packages are compiled ahead-of-time when they are installed and site files
@@ -37,6 +43,7 @@
 (setq-default mode-line-format nil)
 
 (setq inhibit-startup-screen t)
+
 ;; Initial frame
 (setq initial-frame-alist '((top . 0.5)
                             (left . 0.5)

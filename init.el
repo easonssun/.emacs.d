@@ -1,7 +1,8 @@
 ;; init.el 	-*- lexical-binding: t -*-
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
 (setq custom-file "~/.emacs.d/custom.el")
-(load custom-file)
+(when (file-exists-p custom-file)
+  (load custom-file))
 
 (setq straight-vc-git-default-clone-depth 1)
 (defvar bootstrap-version)

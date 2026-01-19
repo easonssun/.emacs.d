@@ -4,15 +4,17 @@
 ;; 	(vector ((if (eq system-type 'gnu/linux) #b11111100 #b11100000)))
 ;; 	1 8
 ;; 	'(center t)))
-(require 'magit)
+;; (require 'magit)
 
 ;; Magit 配置
-(unbind-key "M-1" magit-mode-map)
-(unbind-key "M-2" magit-mode-map)
-(unbind-key "M-3" magit-mode-map)
-(unbind-key "M-4" magit-mode-map)
+(with-eval-after-load 'magit
+  (unbind-key "M-1" magit-mode-map)
+  (unbind-key "M-2" magit-mode-map)
+  (unbind-key "M-3" magit-mode-map)
+  (unbind-key "M-4" magit-mode-map)
+  )
 
-(require 'diff-hl)
+;; (require 'diff-hl)
 
 ;; Highlight uncommitted changes using VC
 ;; ;; :bind (:map diff-hl-command-map

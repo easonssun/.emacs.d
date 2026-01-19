@@ -54,6 +54,8 @@
 ;; (require 'nerd-icons-corfu)
 ;; (require 'nerd-icons-dired)
 
+(add-hook 'dired-mode-hook 'nerd-icons-dired-mode)
+(add-hook 'dired-mode-hook 'diredfl-mode)
 (add-hook 'vertico-mode-hook 'nerd-icons-completion-mode)
 
 ;; dashboard
@@ -71,46 +73,17 @@
 (with-eval-after-load 'doom-themes
   (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
         doom-themes-enable-italic t) ; if nil, italics is universally disabled
+  ;; Enable flashing mode-line on errors
+  (doom-themes-visual-bell-config)
+  ;; Enable custom neotree theme (nerd-icons must be installed!)
+  (doom-themes-neotree-config)
+  ;; or for treemacs users
+  (setq doom-themes-treemacs-theme "doom-atom") ; use "doom-colors" for less minimal icon theme
+  (doom-themes-treemacs-config)
+  ;; Corrects (and improves) org-mode's native fontification.
+  (doom-themes-org-config)
   )
 
-(defun switch-emacs-theme(theme)
-  "switch emacs theme"
-  "设置主题并永久保存"
-  (interactive
-   (list
-    (intern (completing-read 
-             "选择主题: "
-             (mapcar #'symbol-name
-                     (custom-available-themes))))))
-  
-  ;; 禁用所有已启用的主题
-  (mapc #'disable-theme custom-enabled-themes)
-  
-  ;; 加载新主题
-  (load-theme theme t)
-  
-  ;; 使用customize保存到配置文件
-  (customize-save-variable 'emacs-custom-theme theme)
-  )
-
-(add-hook 'after-init-hook
-  (lambda ()
-    (if (and (boundp 'emacs-cusom-theme)
-             (custom-theme-name-valid-p 'emacs-custom-theme))
-        (load-theme emacs-custom-theme t)
-      (load-theme 'doom-one t))
-    )
-  )
-
-;; Enable flashing mode-line on errors
-(doom-themes-visual-bell-config)
-;; Enable custom neotree theme (nerd-icons must be installed!)
-(doom-themes-neotree-config)
-;; or for treemacs users
-(setq doom-themes-treemacs-theme "doom-atom") ; use "doom-colors" for less minimal icon theme
-(doom-themes-treemacs-config)
-;; Corrects (and improves) org-mode's native fontification.
-(doom-themes-org-config)
 
 ;; doom-modeline
 (require 'doom-modeline)
@@ -123,4 +96,34 @@
   (interactive)
   (setq-local default-text-properties '(line-spacing 0.2 line-height 1.2)))
 
+;; 保存主题
+(defun switch-emacs-theme(theme)
+  "switch emacs theme"
+  (interactive
+   (list
+    (intern (completing-read 
+             "select theme: "
+             (mapcar #'symbol-name
+                     (custom-available-themes))))))
+  
+  ;; 禁用所有已启用的主题
+  (mapc #'disable-theme custom-enabled-themes)
+  
+  ;; 加载新主题
+  (load-theme theme t)
+  
+  ;; 使用customize保存到配置文件
+  (customize-save-variable 'custom-emacs-theme theme)
+  )
+
+(defun use-emacs-theme()
+  (if (and (boundp 'custom-emacs-theme)
+           (symbolp custom-emacs-theme)
+           (not (null custom-emacs-theme)))
+      (load-theme custom-emacs-theme t)
+    (load-theme 'doom-one t))
+  )
+(add-hook 'after-init-hook 'use-emacs-theme)
+
 (provide 'init-ui)
+

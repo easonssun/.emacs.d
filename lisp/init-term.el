@@ -42,6 +42,19 @@
 (setq eshell-smart-space-goes-to-end t)
 (setq eshell-history-size 10000)
 
+
+(autoload 'eshell-delchar-or-maybe-eof "em-rebind")
+
+;; eshell-git-prompt 配置
+(with-eval-after-load 'eshell-git-prompt
+  (eshell-git-prompt-use-theme 'multiline2)
+  )
+
+;; eshell-syntax-highlighting 钩子
+(add-hook 'eshell-mode-hook 'eshell-syntax-highlighting-global-mode)
+;; capf-autosuggest 钩子
+(add-hook 'eshell-mode-hook 'capf-autosuggest-mode)
+(add-hook 'comint-mode-hook 'capf-autosuggest-mode)
 ;; eshell 模式钩子
 (add-hook 'eshell-mode-hook
           (lambda ()
@@ -51,23 +64,5 @@
             ;; (setenv "TERM" "xterm-256color")
             (setq-local truncate-lines -1)
             ))
-
-(autoload 'eshell-delchar-or-maybe-eof "em-rebind")
-
-;; eshell-git-prompt 配置
-(custom-set-faces
-  '(eshell-git-prompt-multiline2-dir-face ((t (:foreground "#c09035" :bold t)))))
-(eshell-git-prompt-use-theme 'multiline2)
-
-;; eshell-syntax-highlighting 钩子
-(add-hook 'eshell-mode-hook 'eshell-syntax-highlighting-global-mode)
-;; eshell-syntax-highlighting 自定义外观
-(custom-set-faces
-'(eshell-syntax-highlighting-shell-command-face ((t (:foreground "#7cc77f" :bold t)))))
-
-;; capf-autosuggest 钩子
-(add-hook 'eshell-mode-hook 'capf-autosuggest-mode)
-(add-hook 'comint-mode-hook 'capf-autosuggest-mode)
-
 
 (provide 'init-term)

@@ -12,21 +12,19 @@
 
 (require 'dired-git-info)
 ;; Show git info in dired
-(define-key dired-mode-map ")" 'dired-git-info-mode)
+(define-key dired-mode-map "I" 'dired-git-info-mode)
 
 (require 'dired-rsync)
 ;; Allow rsync from dired buffers
 (define-key dired-mode-map (kbd "C-c C-r") 'dired-rsync)
 
-(require 'diredfl)
+;; (require 'diredfl)
 ;; Colorful dired
-(add-hook 'dired-mode-hook 'diredfl-mode)
 
 (require 'dired-subtree)
-
 ;; 折叠子目录（类似 ranger）
-(define-key dired-mode-map (kbd "TAB") 'dired-subtree-toggle)
-
-(add-hook 'dired-mode-hook 'nerd-icons-dired-mode)
+(with-eval-after-load 'dired-subtree
+  (define-key dired-mode-map (kbd "TAB") 'dired-subtree-toggle)
+  )
 
 (provide 'init-dired)

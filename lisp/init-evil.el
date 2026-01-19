@@ -8,9 +8,6 @@
 (setq evil-cross-lines t)                     ; j/k 可跨软换行行（类似 Vim）
 (setq evil-undo-system 'undo-redo)            ; 使用 Emacs 的 undo-tree 或简易 undo-redo
 
-(require 'evil)
-(evil-mode 1)
-
 ;; (unbind-key "C-u" evil-mode-map)
 ;; Vim 风格光标
 (defvar evil-normal-state-cursor 'hbox)
@@ -19,11 +16,8 @@
 (defvar evil-replace-state-cursor 'bar)
 (defvar evil-motion-state-cursor 'hollow)
 
-;; 添加 evil-insert-state-exit 钩子
-(add-hook 'evil-insert-state-exit-hook
-          (lambda ()
-            (call-process "fcitx5-remote" nil 0 nil "-c")))
-
+(evil-mode 1)
+;; (require 'evil)
 (with-eval-after-load 'evil
       (require 'evil-collection)
       (evil-collection-init)
@@ -36,6 +30,10 @@
       )
 
 (global-set-key (kbd "C-SPC") '(lambda () (interactive) (call-process "fcitx5-remote" nil 0 nil "-o")))
+;; 添加 evil-insert-state-exit 钩子
+(add-hook 'evil-insert-state-exit-hook
+          (lambda ()
+            (call-process "fcitx5-remote" nil 0 nil "-c")))
 
 
 ;; evil-textobj-between

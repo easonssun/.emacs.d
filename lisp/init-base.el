@@ -1,14 +1,16 @@
 ;; init-base.el 	-*- lexical-binding: t -*-
 ;; setup
-(setq make-backup-files nil)                 
-(fset 'yes-or-no-p 'y-or-n-p)
-(setq select-enable-clipboard nil)
+(progn
+  (setq make-backup-files nil)                 
+  (fset 'yes-or-no-p 'y-or-n-p)
+  (setq select-enable-clipboard nil)
 
-;;; And I have tried
-(setq-default indent-tabs-mode nil)
-(setq-default tab-width 2)
+  ;;; And I have tried
+  (setq-default indent-tabs-mode nil)
+  (setq-default tab-width 2)
 
-(global-hl-line-mode t)
+  (global-hl-line-mode t)
+  )
 
 
 (require 'exec-path-from-shell)
@@ -18,20 +20,24 @@
 
 ;; 记录 M-x 历史
 (add-hook 'after-init-hook 'savehist-mode)
-(setq enable-recursive-minibuffers t)
-(setq history-length 1000)
-(setq savehist-additional-variables '(mark-ring
-				      global-mark-ring
-				      search-ring
-				      regexp-search-ring
-				      extended-command-history))
-(setq savehist-autosave-interval 300)
+(progn
+  (setq enable-recursive-minibuffers t)
+  (setq history-length 1000)
+  (setq savehist-additional-variables '(mark-ring
+                                        global-mark-ring
+                                        search-ring
+                                        regexp-search-ring
+                                        extended-command-history))
+  (setq savehist-autosave-interval 300)
+  )
 
 ;; 文件历史
 (add-hook 'after-init-hook 'recentf-mode)
-(setq recentf-max-saved-items 300)
-(setq recentf-auto-cleanup 'never)
-(setq recentf-filename-handlers '(abbreviate-file-name))
+(progn
+  (setq recentf-max-saved-items 300)
+  (setq recentf-auto-cleanup 'never)
+  (setq recentf-filename-handlers '(abbreviate-file-name))
+  )
 
 (provide 'init-base)
 

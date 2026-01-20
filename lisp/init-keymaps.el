@@ -8,9 +8,10 @@
   (interactive)
   (capitalize-word -1))
 
-;; 安装并加载 general.el
-;;(unless (package-installed-p 'general)
-  ;;(package-install 'general))
+(defun fullscreen ()
+ (interactive)
+ (set-frame-parameter nil 'fullscreen
+                      (if (frame-parameter nil 'fullscreen) nil 'fullboth)))
 
 ;; 在 evil 加载后配置 general
 (with-eval-after-load 'evil
@@ -27,6 +28,10 @@
 
      (general-def
        ;; C-x bindings in `ctl-x-map'
+       "<f12>" 'fullscreen
+       "C-;" 'embark-act
+       "C-h b" 'embark-bindings
+
        "C-x C-r" 'projectile-switch-project     ; 使用 ibuffer
        "C-x C-b" 'ibuffer     ; 使用 ibuffer
        "C-x M-:" 'consult-complex-command     ;; orig. repeat-complex-command

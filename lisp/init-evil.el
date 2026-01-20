@@ -1,20 +1,14 @@
 ;; init-evil.el 	-*- lexical-binding: t -*-
 ;; 启用 Evil 全局配置
-(setq evil-want-integration t)                ; 与 Emacs minor modes 集成
-(setq evil-want-keybinding nil)
-(setq evil-shift-width 2)
-(setq evil-search-module 'evil-search)        ; 必须！支持 gn / cgn
-(setq evil-respect-visual-line-mode t)        ; 在 visual-line-mode 中按行移动
-(setq evil-cross-lines t)                     ; j/k 可跨软换行行（类似 Vim）
-(setq evil-undo-system 'undo-redo)            ; 使用 Emacs 的 undo-tree 或简易 undo-redo
-
-;; (unbind-key "C-u" evil-mode-map)
-;; Vim 风格光标
-(defvar evil-normal-state-cursor 'hbox)
-(defvar evil-visual-state-cursor 'box)
-(defvar evil-insert-state-cursor 'bar)
-(defvar evil-replace-state-cursor 'bar)
-(defvar evil-motion-state-cursor 'hollow)
+(progn
+  (setq evil-want-integration t)                ; 与 Emacs minor modes 集成
+  (setq evil-want-keybinding nil)
+  (setq evil-shift-width 2)
+  (setq evil-search-module 'evil-search)        ; 必须！支持 gn / cgn
+  (setq evil-respect-visual-line-mode t)        ; 在 visual-line-mode 中按行移动
+  (setq evil-cross-lines t)                     ; j/k 可跨软换行行（类似 Vim）
+  (setq evil-undo-system 'undo-redo)            ; 使用 Emacs 的 undo-tree 或简易 undo-redo
+ )
 
 (evil-mode 1)
 ;; (require 'evil)

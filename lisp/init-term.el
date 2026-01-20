@@ -46,11 +46,8 @@
 (autoload 'eshell-delchar-or-maybe-eof "em-rebind")
 
 ;; eshell-git-prompt 配置
-(with-eval-after-load 'eshell-git-prompt
-  (eshell-git-prompt-use-theme 'multiline2)
-  )
-
-;; eshell-syntax-highlighting 钩子
+(add-hook 'after-init-hook (lambda () (eshell-git-prompt-use-theme 'multiline2)))
+;; eshell-syntax-highlighting-global-mode
 (add-hook 'eshell-mode-hook 'eshell-syntax-highlighting-global-mode)
 ;; capf-autosuggest 钩子
 (add-hook 'eshell-mode-hook 'capf-autosuggest-mode)

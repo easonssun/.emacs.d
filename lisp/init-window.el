@@ -1,6 +1,14 @@
 ;; init-window.el 	-*- lexical-binding: t -*-
 (add-hook 'after-init-hook 'winner-mode)
 
+(defhydra hydra-window-size (:color red)
+  "调整窗口大小"
+  ("h" shrink-window-horizontally "向左缩窄")
+  ("j" enlarge-window "向下拉高")
+  ("k" shrink-window "向上缩短")
+  ("l" enlarge-window-horizontally "向右加宽")
+  ("q" nil "退出"))
+
 ;; centaur-tabs
 ;; (require 'centaur-tabs)
 (with-eval-after-load 'centaur-tabs
@@ -13,6 +21,7 @@
   (setq centaur-tabs-style "box")
   )
 (add-hook 'dashboard-mode-hook 'centaur-tabs-local-mode)
+(add-hook 'popper-mode-hook 'centaur-tabs-local-mode)
 
 ;; (require 'popper)
 (with-eval-after-load 'popper

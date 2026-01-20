@@ -1,18 +1,19 @@
 ;; init-project.el 	-*- lexical-binding: t -*-
 
-;; 确保 projectile 包已安装并加载
-(require 'projectile)
+;; (require 'projectile)
 ;; 全局启用 Projectile 模式
-(projectile-mode t)
-;; 设置全局前缀键
-(define-key global-map (kbd "C-c p") projectile-command-map)
-;; 启用缓存（通常默认开启，提升性能）
-(setq projectile-enable-caching t)
-;; (setq projectile-indexing-method 'alien) ;; 对于非常大的项目，可尝试 'alien 索引方法
+(progn
+  (projectile-mode t)
+  ;; 设置全局前缀键
+  (define-key global-map (kbd "C-c p") projectile-command-map)
+  ;; 启用缓存（通常默认开启，提升性能）
+  (setq projectile-enable-caching t)
+  ;; (setq projectile-indexing-method 'alien) ;; 对于非常大的项目，可尝试 'alien 索引方法
+ )
 
 ;; 在 projectile 和 consult 之后加载 consult-projectile
-(with-eval-after-load 'projectile
-    (require 'consult-projectile))
+;; (with-eval-after-load 'projectile
+;;     (require 'consult-projectile))
 
 ;; 你可以在这里进行自定义配置，例如绑定快捷键
 

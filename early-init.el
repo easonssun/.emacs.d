@@ -42,11 +42,11 @@
   (push '(ns-transparent-titlebar . t) default-frame-alist))
 (setq-default mode-line-format nil)
 
-(setq inhibit-startup-screen t)
+;; (setq inhibit-startup-screen t)
 
 ;; Initial frame
-(setq initial-frame-alist '((top . 0.5)
-                            (left . 0.5)
-                            (width . 0.7)
-                            (height . 0.85)
-                            (fullscreen)))
+;; (setq initial-frame-alist '((top . 0.5)
+;;                             (left . 0.5)
+;;                             (width . 0.7)
+;;                             (height . 0.85)
+;;                             (fullscreen)))

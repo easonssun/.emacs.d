@@ -53,7 +53,6 @@
                     ace-window
                     exec-path-from-shell
                     general
-                    consult
 
                     nerd-icons
                     nerd-icons-completion
@@ -66,8 +65,12 @@
                     centaur-tabs
                     popper
 
+                    consult
                     projectile
                     consult-projectile
+                    embark
+                    embark-consult
+                    marginalia
 
                     consult-eglot
                     eldoc-mouse
@@ -89,11 +92,8 @@
 
                     orderless
                     vertico
-                    embark-consult
                     corfu
                     corfu-terminal
-                    embark
-                    marginalia
                     cape
                     ))
 

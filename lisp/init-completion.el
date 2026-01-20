@@ -50,7 +50,7 @@
 
 ;; Auto completion - corfu
 ;;(unless (package-installed-p 'corfu)
-;;(package-install 'corfu))
+  ;;(package-install 'corfu))
 
 ;; (require 'corfu)
 ;; 设置 corfu 变量
@@ -62,7 +62,7 @@
   (setq corfu-popupinfo-delay '(0.4 . 0.2))
   ;; 设置 corfu 字体
   (custom-set-faces
-   '(corfu-border ((t (:inherit region :background unspecified)))))
+    '(corfu-border ((t (:inherit region :background unspecified)))))
   )
 ;; 启用 corfu 模式
 (add-hook 'after-init-hook 'global-corfu-mode)
@@ -73,11 +73,11 @@
   (keymap-set corfu-map "RET"
               `(menu-item "" nil :filter
                           ,(lambda (&optional _)
-                             ;; 如果当前是 eshell 或 comint 模式，返回 nil (忽略 corfu 绑定)
-                             ;; 否则返回 corfu-send (执行 corfu 的补全确认)
-                             (unless (or (derived-mode-p 'eshell-mode 'comint-mode)
-                                         (minibufferp))
-                               #'corfu-send))))
+                            ;; 如果当前是 eshell 或 comint 模式，返回 nil (忽略 corfu 绑定)
+                            ;; 否则返回 corfu-send (执行 corfu 的补全确认)
+                            (unless (or (derived-mode-p 'eshell-mode 'comint-mode)
+                                        (minibufferp))
+                              #'corfu-send))))
   )
 
 ;; corfu-terminal

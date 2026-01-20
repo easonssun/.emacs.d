@@ -2,9 +2,9 @@
 ;;(setq dired-omit-files-p t) ; 自动隐藏某些文件
 ;;(setq dired-omit-regexp "\\(^\\.[^.]\\|\\(~$\\|\\ .orig$\\|.rej$\\)")
 
-  ;; Always delete and copy recursively
+;; Always delete and copy recursively
 (setq dired-recursive-deletes 'always
-    dired-recursive-copies 'always)
+      dired-recursive-copies 'always)
 
 (require 'dired-quick-sort)
 ;; Quick sort dired buffers via hydra

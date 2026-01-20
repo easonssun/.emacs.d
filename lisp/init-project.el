@@ -9,7 +9,7 @@
   ;; 启用缓存（通常默认开启，提升性能）
   (setq projectile-enable-caching t)
   ;; (setq projectile-indexing-method 'alien) ;; 对于非常大的项目，可尝试 'alien 索引方法
- )
+  )
 
 ;; 在 projectile 和 consult 之后加载 consult-projectile
 ;; (with-eval-after-load 'projectile

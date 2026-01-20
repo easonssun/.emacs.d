@@ -25,18 +25,18 @@
   (setq diff-hl-draw-borders nil)
   (setq diff-hl-update-async t)
   (setq diff-hl-global-modes '(not image-mode pdf-view-mode))
-
+  
   ;; 区分 staged 和 unstaged
   (setq diff-hl-show-staged-changes nil)
   (setq diff-hl-reference-revision nil)
   ;; Set fringe style
   (setq-default fringes-outside-margins t)
-
+  
   ;; (setq diff-hl-fringe-bmp-function 'my-diff-hl-fringe-bmp-function)
-
+  
   ;; Highlight on-the-fly
   (diff-hl-flydiff-mode 1)
-
+  
   ;; Fall back to the display margin since the fringe is unavailable in tty
   (unless (display-graphic-p) (diff-hl-margin-mode 1))
   )

@@ -4,11 +4,11 @@
   (setq make-backup-files nil)                 
   (fset 'yes-or-no-p 'y-or-n-p)
   (setq select-enable-clipboard nil)
-
+  
   ;;; And I have tried
   (setq-default indent-tabs-mode nil)
   (setq-default tab-width 2)
-
+  
   (global-hl-line-mode t)
   )
 

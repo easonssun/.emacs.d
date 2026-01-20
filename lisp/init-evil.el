@@ -8,20 +8,20 @@
   (setq evil-respect-visual-line-mode t)        ; 在 visual-line-mode 中按行移动
   (setq evil-cross-lines t)                     ; j/k 可跨软换行行（类似 Vim）
   (setq evil-undo-system 'undo-redo)            ; 使用 Emacs 的 undo-tree 或简易 undo-redo
- )
+  )
 
 (evil-mode 1)
 ;; (require 'evil)
 (with-eval-after-load 'evil
-      (require 'evil-collection)
-      (evil-collection-init)
-      (require 'evil-surround)
-      (global-evil-surround-mode 1)
-      (require 'evil-visualstar)
-      (global-evil-visualstar-mode)
-      (require 'evil-commentary)
-      (evil-commentary-mode)
-      )
+  (require 'evil-collection)
+  (evil-collection-init)
+  (require 'evil-surround)
+  (global-evil-surround-mode 1)
+  (require 'evil-visualstar)
+  (global-evil-visualstar-mode)
+  (require 'evil-commentary)
+  (evil-commentary-mode)
+  )
 
 (global-set-key (kbd "C-SPC") '(lambda () (interactive) (call-process "fcitx5-remote" nil 0 nil "-o")))
 ;; 添加 evil-insert-state-exit 钩子
@@ -75,9 +75,9 @@
   (evil-between-range count beg end type))
 
 (define-key evil-outer-text-objects-map evil-textobj-between-a-key
-  'evil-a-between)
+            'evil-a-between)
 (define-key evil-inner-text-objects-map evil-textobj-between-i-key
-  'evil-inner-between)
+            'evil-inner-between)
 
 ;; evil-little-word
 ;; Turn on subword-mode everywhere

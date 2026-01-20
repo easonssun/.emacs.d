@@ -20,9 +20,9 @@
 
 ;;(require 'package)
 ;;(add-to-list 'package-archives
-      ;;'(("melpa" . "https://mirrors.ustc.edu.cn/elpa/melpa/")
-	;;("gnu" . "https://mirrors.ustc.edu.cn/elpa/gnu/")
-	;;("nongnu" . "https://mirrors.ustc.edu.cn/elpa/nongnu/")))
+;;'(("melpa" . "https://mirrors.ustc.edu.cn/elpa/melpa/")
+;;("gnu" . "https://mirrors.ustc.edu.cn/elpa/gnu/")
+;;("nongnu" . "https://mirrors.ustc.edu.cn/elpa/nongnu/")))
 ;;(add-to-list 'package-archives
 ;;	     '("melpa" . "https://mirrors.ustc.edu.cn/elpa/melpa")
 ;;	     '("nongnu" . "https://mirrors.ustc.edu.cn/elpa/nongnu")
@@ -30,7 +30,7 @@
 ;;(package-initialize)
 
 ;;(when (not package-archive-contents)
-  ;;(package-refresh-contents))
+;;(package-refresh-contents))
 
 (defun straight-package-installed-p (package)
   "检查 PACKAGE 是否已被 straight.el 安装和管理。"
@@ -40,56 +40,56 @@
 (defun ensure-package-installed (packages)
   "确保指定的包都已安装。"
   (dolist (package packages)
-      (message "Installing %s..." package)
-      (straight-use-package package nil nil)))
+    (message "Installing %s..." package)
+    (straight-use-package package nil nil)))
 
 (setq my/packages '(evil
                     evil-collection
                     evil-surround
                     evil-visualstar
                     evil-commentary
-
+                    
                     treesit-auto
                     ace-window
                     exec-path-from-shell
                     general
-
+                    
                     nerd-icons
                     nerd-icons-completion
                     nerd-icons-corfu
                     nerd-icons-dired
-
+                    
                     rainbow-delimiters
                     doom-themes
                     doom-modeline
                     centaur-tabs
                     popper
-
+                    
                     consult
                     projectile
                     consult-projectile
                     embark
                     embark-consult
                     marginalia
-
+                    
                     consult-eglot
                     eldoc-mouse
-
+                    
                     dashboard
                     magit
                     diff-hl
-
+                    
                     dired-quick-sort
                     dired-git-info
                     dired-rsync
                     diredfl
                     dired-subtree
-
+                    
                     eat
                     eshell-git-prompt
                     eshell-syntax-highlighting
                     capf-autosuggest
-
+                    
                     orderless
                     vertico
                     corfu

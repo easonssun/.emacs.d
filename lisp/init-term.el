@@ -12,7 +12,7 @@
   ;; eat 钩子设置
   (add-hook 'eshell-load-hook 'eat-eshell-mode)
   (add-hook 'eshell-load-hook 'eat-eshell-visual-command-mode)
-)
+  )
 
 ;; eshell 键绑定
 ;;(define-key eshell-mode-map (kbd "C-l") 'eshell-clear)

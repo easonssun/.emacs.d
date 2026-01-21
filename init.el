@@ -48,6 +48,8 @@
                     evil-surround
                     evil-visualstar
                     evil-commentary
+
+                    posframe
                     
                     treesit-auto
                     ace-window

@@ -1,4 +1,4 @@
-;; init-completion.el 	-*- lexical-binding: t -*-
+;; init-completion.el   -*- lexical-binding: t -*-
 
 ;; Optionally use the `orderless' completion style.
 ;; (require 'orderless)
@@ -26,7 +26,37 @@
 
 
 ;; (require 'embark)
+;; 组合键 C-h 可以展示后续的有效按键
 (setq prefix-help-command 'embark-prefix-help-command)
+;; Embark 使用 posframe 打开
+(progn 
+  (defun posframe-display-buffer (buffer)
+    (let ((default-fgc (face-attribute 'default :foreground))
+          (default-bgc (face-attribute 'default :background))
+          (hl (face-attribute 'highlight :background)))
+      (when buffer (posframe-show
+                    buffer
+                    ;; :position (point)
+                    :poshandler 'posframe-poshandler-frame-center
+                    :font-height 1.0
+                    :font-width 1.0
+                    ;; :width 120
+                    ;; :height 30
+                    :border-width 5
+                    :left-fringe 20
+                    :right-fringe 20
+                    :border-color hl
+                    :background-color default-bgc))))
+  (defun embark-get-buffer-pos-display (orig-fun)
+    (interactive)
+    (let* ((orig-result (funcall orig-fun)))
+      (lambda (&optional keymap targets prefix)
+        (let ((result (funcall orig-result keymap targets prefix)))
+          (when (and result (windowp result))
+            (posframe-display-buffer (window-buffer result))
+            (delete-window result))))))
+  (advice-add #'embark-verbose-indicator :around #'embark-get-buffer-pos-display)
+  )
 
 ;; (require 'consult)
 (progn
@@ -50,7 +80,7 @@
 
 ;; Auto completion - corfu
 ;;(unless (package-installed-p 'corfu)
-  ;;(package-install 'corfu))
+;;(package-install 'corfu))
 
 ;; (require 'corfu)
 ;; 设置 corfu 变量
@@ -62,7 +92,7 @@
   (setq corfu-popupinfo-delay '(0.4 . 0.2))
   ;; 设置 corfu 字体
   (custom-set-faces
-    '(corfu-border ((t (:inherit region :background unspecified)))))
+   '(corfu-border ((t (:inherit region :background unspecified)))))
   )
 ;; 启用 corfu 模式
 (add-hook 'after-init-hook 'global-corfu-mode)
@@ -73,11 +103,11 @@
   (keymap-set corfu-map "RET"
               `(menu-item "" nil :filter
                           ,(lambda (&optional _)
-                            ;; 如果当前是 eshell 或 comint 模式，返回 nil (忽略 corfu 绑定)
-                            ;; 否则返回 corfu-send (执行 corfu 的补全确认)
-                            (unless (or (derived-mode-p 'eshell-mode 'comint-mode)
-                                        (minibufferp))
-                              #'corfu-send))))
+                             ;; 如果当前是 eshell 或 comint 模式，返回 nil (忽略 corfu 绑定)
+                             ;; 否则返回 corfu-send (执行 corfu 的补全确认)
+                             (unless (or (derived-mode-p 'eshell-mode 'comint-mode)
+                                         (minibufferp))
+                               #'corfu-send))))
   )
 
 ;; corfu-terminal

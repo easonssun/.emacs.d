@@ -1,6 +1,7 @@
 ;; init-base.el 	-*- lexical-binding: t -*-
 ;; setup
 (progn
+  (global-auto-revert-mode t)
   (setq make-backup-files nil)                 
   (fset 'yes-or-no-p 'y-or-n-p)
   (setq select-enable-clipboard nil)

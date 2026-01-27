@@ -87,7 +87,6 @@
                     diredfl
                     dired-subtree
                     
-                    eat
                     eshell-git-prompt
                     eshell-syntax-highlighting
                     capf-autosuggest
@@ -106,6 +105,18 @@
   (straight-use-package 'fd-dired) 
   (require 'fd-dired))
 
+(straight-use-package
+ '(eat :type git
+       :host codeberg
+       :repo "akib/emacs-eat"
+       :files ("*.el" ("term" "term/*.el") "*.texi"
+               "*.ti" ("terminfo/e" "terminfo/e/*")
+               ("terminfo/65" "terminfo/65/*")
+               ("integration" "integration/*")
+               (:exclude ".dir-locals.el" "*-tests.el"))))
+
+
+
 (require 'init-base)
 (require 'init-evil)
 (require 'init-ui)
@@ -115,10 +126,8 @@
 (require 'init-git)
 (require 'init-term)
 (require 'init-project)
-;;
-;;
-(require 'init-keymaps)
 
+(require 'init-keymaps)
 (require 'init-lsp)
 
 ;;(require 'init-mc)

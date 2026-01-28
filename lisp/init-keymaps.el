@@ -1,3 +1,5 @@
+;; init.el 	-*- lexical-binding: t -*-
+
 (defun custom/downcase-back()
   (interactive)
   (downcase-word -1))
@@ -7,11 +9,6 @@
 (defun custom/capitalize-back()
   (interactive)
   (capitalize-word -1))
-
-(defun fullscreen ()
-  (interactive)
-  (set-frame-parameter nil 'fullscreen
-                       (if (frame-parameter nil 'fullscreen) nil 'fullboth)))
 
 ;; 在 evil 加载后配置 general
 (with-eval-after-load 'evil
@@ -28,7 +25,7 @@
   
   (general-def
     ;; C-x bindings in `ctl-x-map'
-    "<f12>" 'fullscreen
+    "<f12>" 'toggle-frame-fullscreen
     "C-;" 'embark-act
     "C-h b" 'embark-bindings
     

@@ -1,4 +1,5 @@
 ;; init.el 	-*- lexical-binding: t -*-
+
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
 (setq custom-file "~/.emacs.d/custom.el")
 (when (file-exists-p custom-file)
@@ -114,7 +115,6 @@
                ("terminfo/65" "terminfo/65/*")
                ("integration" "integration/*")
                (:exclude ".dir-locals.el" "*-tests.el"))))
-
 
 
 (require 'init-base)

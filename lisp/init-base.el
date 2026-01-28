@@ -1,5 +1,8 @@
 ;; init-base.el 	-*- lexical-binding: t -*-
+
 ;; setup
+
+(add-hook 'after-init-hook 'toggle-frame-fullscreen)
 (progn
   (global-auto-revert-mode t)
   (setq make-backup-files nil)                 

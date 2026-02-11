@@ -1,45 +1,50 @@
-;; (use-package multiple-cursors
-;;   :ensure t
-;;   :bind-keymap ("C-c o" . multiple-cursors-map)
-;;   :bind (("C-`"   . mc/mark-next-like-this)
-;;          ("C-\\"  . mc/unmark-next-like-this)
-;;          :map multiple-cursors-map
-;;               ("SPC" . mc/edit-lines)
-;;               (">"   . mc/mark-next-like-this)
-;;               ("<"   . mc/mark-previous-like-this)
-;;               ("a"   . mc/mark-all-like-this)
-;;               ("n"   . mc/mark-next-like-this-word)
-;;               ("p"   . mc/mark-previous-like-this-word)
-;;               ("r"   . set-rectangular-region-anchor)
-;;               )
-;;   :config
-;;   (defvar multiple-cursors-map nil "keymap for `multiple-cursors")
-;;   (setq multiple-cursors-map (make-sparse-keymap))
-;;   (setq mc/list-file (concat user-emacs-directory "/etc/mc-lists.el"))
-;;   (setq mc/always-run-for-all t))
+;; init-mc.el   -*- lexical-binding: t -*-
+(defvar my/is-multiple-cursors-mode nil)
 
+;; 自动在 multiple-cursors 模式下禁用 evil，退出后重新启用
+(defun my/disable-evil-for-mc (args)
+  "在 multiple-cursors 模式启用时，局部禁用 evil。"
+  (when (not my/is-multiple-cursors-mode)
+    (cond
+  ((evil-visual-state-p)
+      (let ((mrk (mark))
+    (pnt (point)))
+      (evil-emacs-state)
+      (set-mark mrk)
+      (goto-char pnt)))
+  (t
+      (evil-emacs-state)))
+    (setq-local my/evil-was-active-before-mc t)
+    (setq my/is-multiple-cursors-mode t)
+    )
+  )
 
-(use-package evil-mc
-  :ensure t
-  :config
-  (global-evil-mc-mode  1))
+(defun my/restore-evil-after-mc ()
+  "在 multiple-cursors 模式禁用时，恢复之前 evil 的状态。"
+  (when (and (boundp 'my/evil-was-active-before-mc)
+             my/evil-was-active-before-mc)
+    (evil-normal-state)
+    (setq my/is-multiple-cursors-mode nil)
+    (kill-local-variable 'my/evil-was-active-before-mc))) ; 清理变量
 
-(defun +evil-normal-state ()
-  "Returns to `evil-normal-state'.
-When in insert mode, abort company suggestions and then go to normal mode.
-When in normal mode, abort multiple cursors and then go to normal mode.
-Always quit highlighting."
-  (interactive)
-  (if (eq evil-state 'normal)
-      (if (fboundp 'evil-mc-undo-all-cursors)
-          (evil-mc-undo-all-cursors)))
-  (if (eq evil-state 'insert)
-      (if (fboundp 'company-abort)
-          (company-abort)))
-  (evil-ex-nohighlight)
-  (evil-normal-state))
+;; 添加钩子
+;; (add-hook 'multiple-cursors-mode-enabled-hook #'my/disable-evil-for-mc)
+(dolist (cmd '(mc/mark-next-like-this
+               mc/mark-previous-like-this
+               mc/mark-all-like-this
+               mc/mark-all-like-this-dwim
+               mc/mark-next-like-this-word
+               mc/mark-previous-like-this-word
+               mc/mark-next-symbol-like-this
+               mc/mark-previous-symbol-like-this
+               mc/mark-all-in-region
+               mc/edit-lines
+               mc/insert-numbers))
+  (advice-add cmd :before #'my/disable-evil-for-mc))
+(add-hook 'multiple-cursors-mode-disabled-hook #'my/restore-evil-after-mc)
 
-(evil-define-key* 'normal 'global
-  (kbd "<escape>") #'+evil-normal-state)
+;; (global-set-key (kbd "C-M-p") 'mc/mark-previous-like-this)
+;; (global-set-key (kbd "C-M-n") 'mc/mark-next-like-this)
+;; (global-set-key (kbd "M-<down>") 'mc/mark-next-like-this-word)
 
 (provide 'init-mc)

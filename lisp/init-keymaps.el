@@ -25,9 +25,12 @@
   
   (general-def
     ;; C-x bindings in `ctl-x-map'
-    "<f12>" 'toggle-frame-fullscreen
     "C-;" 'embark-act
     "C-h b" 'embark-bindings
+
+    "M-k" 'mc/mark-previous-like-this
+    "M-j" 'mc/mark-next-like-this
+    "M-<down>" 'mc/mark-next-like-this-word
     
     "C-x C-r" 'projectile-switch-project     ; 使用 ibuffer
     "C-x C-b" 'ibuffer     ; 使用 ibuffer

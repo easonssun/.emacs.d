@@ -41,6 +41,7 @@
   'evil-commentary
 
   'posframe
+  'multiple-cursors
 
   'treesit-auto
   'ace-window
@@ -104,11 +105,11 @@
 (require 'init-git)
 (require 'init-term)
 (require 'init-project)
+(require 'init-mc)
 
 (require 'init-keymaps)
 (require 'init-lsp)
 
-;;(require 'init-mc)
 ;;(require 'init-ai)
 ;;(require 'init-evil-plugins)
 ;;

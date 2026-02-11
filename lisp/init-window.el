@@ -23,6 +23,25 @@
 (add-hook 'dashboard-mode-hook 'centaur-tabs-local-mode)
 (add-hook 'popper-mode-hook 'centaur-tabs-local-mode)
 
+(defun my-consult--source-centaur-groups ()
+  "Source for switching Centaur Tabs groups."
+  `(:name     "Tab Groups"
+    :narrow   ?g
+    :category centaur-group
+    :face     font-lock-type-face
+    :items    ,(lambda ()
+                  (centaur-tabs-get-groups))
+    :action   ,(lambda (group)
+                  (centaur-tabs-switch-group group))
+    :preview-key nil))  ;; 禁用预览，因为切换group是立即动作
+
+;; 添加到 consult-buffer
+(with-eval-after-load 'consult
+  (add-to-list 'consult-buffer-sources 
+                (my-consult--source-centaur-groups)
+                t)
+  )
+
 ;; (require 'popper)
 (with-eval-after-load 'popper
   (setq popper-window-height 20)

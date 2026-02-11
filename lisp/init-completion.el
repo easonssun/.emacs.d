@@ -67,7 +67,7 @@
   (setq xref-show-xrefs-function #'consult-xref
         xref-show-definitions-function #'consult-xref)
   ;; Optionally configure the narrowing key.
-  (setq consult-narrow-key "<")
+  (setq consult-narrow-key ",")
   )
 
 (add-hook 'completion-list-mode-hook 'consult-preview-at-point-mode)

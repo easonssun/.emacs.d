@@ -77,7 +77,7 @@
     "M-g I"  'consult-imenu-multi
     "M-g w"  'ace-window
     "M-g t"  'centaur-tabs-ace-jump
-    "M-g s"  'centaur-tabs-switch-group
+    ;; "M-g s"  'centaur-tabs-switch-group ;; use consult-buffer minibuffer
     "M-g p"  'consult-projectile
     
                                         ; M-s bindings in `search-map'

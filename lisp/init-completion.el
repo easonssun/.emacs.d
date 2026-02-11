@@ -85,11 +85,11 @@
 ;; (require 'corfu)
 ;; 设置 corfu 变量
 (progn
-  (setq corfu-auto t)
-  (setq corfu-auto-prefix 1)
-  (setq corfu-preview-current nil)
-  (setq corfu-auto-delay 0.2)
-  (setq corfu-popupinfo-delay '(0.4 . 0.2))
+  ;; (setq corfu-auto t)
+  ;; (setq corfu-auto-prefix 1)
+  ;; (setq corfu-preview-current nil)
+  ;; (setq corfu-auto-delay 0.2)
+  ;; (setq corfu-popupinfo-delay '(0.4 . 0.2))
   ;; 设置 corfu 字体
   (custom-set-faces
    '(corfu-border ((t (:inherit region :background unspecified)))))

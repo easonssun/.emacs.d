@@ -2,7 +2,7 @@
 
 ;; setup
 
-(add-hook 'after-init-hook 'toggle-frame-fullscreen)
+(add-hook 'after-init-hook 'toggle-frame-maximized)
 (progn
   (global-auto-revert-mode t)
   (setq make-backup-files nil)                 

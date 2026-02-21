@@ -2,7 +2,7 @@
 
 ;; (set-frame-font "-CTDB-FiraCode Nerd Font-medium-normal-normal-*-26-*-*-*-m-0-iso10646-1" nil t)
 ;; (set-frame-font "FiraCode Nerd Font" nil t)
-(set-frame-font "JetBrains Mono" nil t)
+(set-frame-font "JetBrainsMono Nerd Font" nil t)
 ;; 开启连体字
 (global-prettify-symbols-mode 1)
 

@@ -76,6 +76,7 @@
       (my-ui--whitespace-muted-fg base bg))))
 
 (defun my-ui-setup-whitespace-faces (&optional _theme _body)
+  (require 'whitespace)
   (let* ((bg (my-ui--bg))
          (faded (my-ui--comment-faded-fg bg))
          (base (my-ui--fg 'default "#d4d4d4")))

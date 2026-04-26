@@ -1,3 +1,5 @@
+;; early-init.el   -*- lexical-binding: t -*-
+
 ;; Defer garbage collection further back in the startup process
 (setq gc-cons-threshold most-positive-fixnum)
 (setq gc-cons-percentage 0.6) ; 可选：当内存使用达到此百分比时也触发GC
@@ -10,16 +12,15 @@
 ;; Prevent unwanted runtime compilation for gccemacs (native-comp) users;
 ;; packages are compiled ahead-of-time when they are installed and site files
 ;; are compiled when gccemacs is installed.
-(setq native-comp-deferred-compilation nil ;; obsolete since 29.1
-      native-comp-jit-compilation nil)
+(setq native-comp-jit-compilation nil)
 
 ;; Package initialize occurs automatically, before `user-init-file' is
 ;; loaded, but after `early-init-file'. We handle package
 ;; initialization, so we must prevent Emacs from doing it early!
 (setq package-enable-at-startup nil)
 
-;; `use-package' is builtin since 29.
-;; It must be set before loading `use-package'.
+;; `use-package' is builtin since 29; set before loading `use-package'.
+(defvar use-package-enable-imenu-support)
 (setq use-package-enable-imenu-support t)
 
 ;; In noninteractive sessions, prioritize non-byte-compiled source files to

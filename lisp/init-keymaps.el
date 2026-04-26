@@ -1,5 +1,13 @@
 ;; init.el 	-*- lexical-binding: t -*-
 
+(eval-when-compile
+  (declare-function evil-define-key "evil" (state map &rest args)))
+(defvar eshell-mode-map)
+(defvar capf-autosuggest-active-mode-map)
+(defvar dired-mode-map)
+(defvar eat-mode-map)
+(defvar minuet-active-mode-map)
+
 (defun custom/downcase-back()
   (interactive)
   (downcase-word -1))

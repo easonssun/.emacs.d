@@ -19,3 +19,4 @@ custom.el
 /.emacs.rej
 /tree-sitter/
 /straight/
+**/*.elc

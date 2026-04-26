@@ -1,10 +1,9 @@
 ;; 加载 treesit-auto
 (require 'treesit-auto)
-(with-eval-after-load
+(with-eval-after-load 'treesit-auto
   (treesit-auto-add-to-auto-mode-alist 'all)
   (setq treesit-auto-install 'prompt)
-  (global-treesit-auto-mode)
-  )
+  (global-treesit-auto-mode))
 
 (progn
   (setq completion-ignore-case t)      ;company-capf匹配时不区分大小写

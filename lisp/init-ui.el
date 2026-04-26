@@ -22,26 +22,83 @@
 ;; (require 'rainbow-delimiters)
 (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
 
-;; whitespace mode 显示制表符
-;; 1. 配置显示的样式
-(setq whitespace-style '(tabs tab-mark spaces space-mark))
-
-;; 2. 配制符号映射
-;; 这里将 Tab (ASCII 9) 映射为 » (Unicode 187)
-;; 如果你希望空格也显示，可以取消下面关于 space-mark 的注释
+;; whitespace：display-table 只做字形映射，勿在 glyph 上绑独立 face，否则与 `region`
+;; 合并异常（选区发灰/断层）；颜色只设在 `whitespace-space` / `whitespace-tab`（font-lock）。
+;; Tab 用 GNU 默认向量；font-lock prepend 减轻 treesit 盖住的问题。
+(setq whitespace-style '(face tabs tab-mark spaces space-mark)
+      whitespace-display-mappings
+      '((space-mark ?\s [?·] [?.])
+        (space-mark ?\xa0 [?¤] [?_])
+        (tab-mark ?\t [?» ?\t] [?\\ ?\t])))
 (setq-default tab-width 2)
-(setq whitespace-display-mappings
-      '(
-        (tab-mark 9 [187 9])       ; Tab 显示为 »
-        ;;(space-mark 32 [183])     ; Space 显示为 · (中间点)
-        ;;(space-mark 160 [164])    ; Non-breaking space 显示为 ¤
-        ))
 
-;; 3. 自定义颜色（可选）
-;; 默认颜色可能太刺眼，设置为深灰色或柔和的颜色
-;; (set-face-attribute 'whitespace-tab nil
-;;                     :background "#414243"  ; 背景色（与你的主题匹配）
-;;                     :foreground "#414243")  ; 前景色（符号颜色，例如红色）
+(defun my-ui--fg (face fallback)
+  (let ((v (face-attribute face :foreground nil t)))
+    (if (and (stringp v) (not (equal v "unspecified-fg"))) v fallback)))
+
+(defun my-ui--bg ()
+  (let ((v (face-attribute 'default :background nil t)))
+    (if (and (stringp v) (not (equal v "unspecified-bg"))) v "#1e1e1e")))
+
+(defun my-ui--whitespace-muted-fg (fg bg)
+  "无可用注释色时，在 FG 与 BG 之间折中。"
+  (require 'color)
+  (condition-case nil
+      (let* ((frgb (color-name-to-rgb fg))
+             (brgb (color-name-to-rgb bg))
+             (fl (+ (car frgb) (cadr frgb) (caddr frgb)))
+             (bl (+ (car brgb) (cadr brgb) (caddr brgb))))
+        (if (> fl bl)
+            (color-darken-name fg 30)
+          (color-lighten-name fg 38)))
+    (error fg)))
+
+(defun my-ui--blend-fg (color-a color-b a-ratio)
+  "线性混合：A-RATIO·COLOR-A + (1-A-RATIO)·COLOR-B，均为颜色名字符串。"
+  (require 'color)
+  (condition-case nil
+      (let* ((ra (color-name-to-rgb color-a))
+             (rb (color-name-to-rgb color-b))
+             (w2 (- 1.0 a-ratio))
+             (r (+ (* a-ratio (car ra)) (* w2 (car rb))))
+             (g (+ (* a-ratio (cadr ra)) (* w2 (cadr rb))))
+             (b (+ (* a-ratio (caddr ra)) (* w2 (caddr rb)))))
+        (color-rgb-to-hex r g b))
+    (error color-a)))
+
+(defun my-ui--comment-faded-fg (bg)
+  "取主题 `font-lock-comment-face'，向背景拉淡（仍偏注释色相）。"
+  (let ((comment (my-ui--fg 'font-lock-comment-face nil))
+        (base (my-ui--fg 'default "#d4d4d4")))
+    (if (and comment (not (string= comment "unspecified-fg")))
+        ;; 越小越淡（越靠近背景）；0.34–0.42 在多数主题下「像注释但更轻」
+        (my-ui--blend-fg comment bg 0.38)
+      (my-ui--whitespace-muted-fg base bg))))
+
+(defun my-ui-setup-whitespace-faces (&optional _theme _body)
+  (let* ((bg (my-ui--bg))
+         (faded (my-ui--comment-faded-fg bg))
+         (base (my-ui--fg 'default "#d4d4d4")))
+    (when (or (null faded) (string= faded base))
+      (setq faded (my-ui--whitespace-muted-fg base bg)))
+    (dolist (x '((whitespace-tab . semi-bold)))
+      (set-face-attribute (car x) nil :foreground faded :background nil :weight (cdr x)))
+    (dolist (sym '(whitespace-space whitespace-hspace))
+      (set-face-attribute sym nil :foreground faded :background nil :weight 'normal))))
+
+(add-hook 'after-init-hook #'my-ui-setup-whitespace-faces t)
+(when (boundp 'enable-theme-functions)
+  (add-hook 'enable-theme-functions #'my-ui-setup-whitespace-faces))
+
+(defun my-ui-whitespace--after-on ()
+  (when whitespace-mode
+    (my-ui-setup-whitespace-faces)
+    (when (and (bound-and-true-p whitespace-font-lock-keywords) font-lock-mode)
+      (font-lock-remove-keywords nil whitespace-font-lock-keywords)
+      ;; prepend：优先于 treesit / 其它 append 的 font-lock，空格背景色才可见
+      (font-lock-add-keywords nil whitespace-font-lock-keywords 'prepend)
+      (font-lock-flush))))
+(add-hook 'whitespace-mode-hook #'my-ui-whitespace--after-on)
 
 ;; 4. 全局开启
 (add-hook 'prog-mode-hook 'whitespace-mode)

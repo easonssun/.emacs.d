@@ -30,7 +30,7 @@
   (global-set-key (kbd "M-j") 'mc/mark-next-like-this)
   (global-set-key (kbd "M-<down>") 'mc/mark-next-like-this-word)
 
-  (global-set-key (kbd "C-x C-r") 'projectile-switch-project)
+  (global-set-key (kbd "C-x C-r") 'project-switch-project)
   (global-set-key (kbd "C-x C-b") 'ibuffer)
   (global-set-key (kbd "C-x M-:") 'consult-complex-command)
   (global-set-key (kbd "C-x b") 'consult-buffer)
@@ -67,7 +67,7 @@
   (global-set-key (kbd "M-g I") 'consult-imenu-multi)
   (global-set-key (kbd "M-g w") 'ace-window)
   (global-set-key (kbd "M-g t") 'centaur-tabs-ace-jump)
-  (global-set-key (kbd "M-g p") 'consult-projectile)
+  (global-set-key (kbd "M-g p") 'consult-project-buffer)
 
   (global-set-key (kbd "M-s f") 'consult-fd)
   (global-set-key (kbd "M-s c") 'consult-locate)

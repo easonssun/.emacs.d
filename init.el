@@ -59,8 +59,6 @@
   'popper
 
   'consult
-  'projectile
-  'consult-projectile
   'embark
   'embark-consult
   'marginalia

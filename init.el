@@ -17,80 +17,55 @@
 ;;  ("melpa" . "https://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")))
 (package-initialize)
 
-(defvar rc/package-contents-refreshed nil)
+(require 'use-package)
 
-(defun rc/package-refresh-contents-once ()
-  (when (not rc/package-contents-refreshed)
-    (setq rc/package-contents-refreshed t)
-    (package-refresh-contents)))
-
-(defun rc/require-one-package (package)
-  (when (not (package-installed-p package))
-    (rc/package-refresh-contents-once)
-    (package-install package)))
-
-(defun rc/require (&rest packages)
-  (dolist (package packages)
-    (rc/require-one-package package)))
-
-(rc/require
-  'evil
-  'evil-collection
-  'evil-surround
-  'evil-visualstar
-  'evil-commentary
-
-  'posframe
-  'multiple-cursors
-
-  'treesit-auto
-  'ace-window
-  'exec-path-from-shell
-
-  'nerd-icons
-  'nerd-icons-completion
-  'nerd-icons-corfu
-  'nerd-icons-dired
-
-  'rainbow-delimiters
-  'doom-themes
-  'doom-modeline
-  'centaur-tabs
-  'popper
-
-  'consult
-  'embark
-  'embark-consult
-  'marginalia
-
-  'consult-eglot
-  'eldoc-mouse
-
-  'dashboard
-  'magit
-  'diff-hl
-
-  'dired-quick-sort
-  'dired-git-info
-  'dired-rsync
-  'diredfl
-  'dired-subtree
-
-  'eshell-git-prompt
-  'eshell-syntax-highlighting
-  'capf-autosuggest
-
-  'orderless
-  'vertico
-  'corfu
-  'corfu-terminal
-  'cape
-
-  'eat
- )
+(dolist (package
+         '(evil
+           evil-collection
+           evil-surround
+           evil-visualstar
+           evil-commentary
+           posframe
+           multiple-cursors
+           treesit-auto
+           ace-window
+           exec-path-from-shell
+           nerd-icons
+           nerd-icons-completion
+           nerd-icons-corfu
+           nerd-icons-dired
+           rainbow-delimiters
+           doom-themes
+           doom-modeline
+           centaur-tabs
+           popper
+           consult
+           embark
+           embark-consult
+           marginalia
+           consult-eglot
+           eldoc-mouse
+           dashboard
+           magit
+           diff-hl
+           dired-quick-sort
+           dired-git-info
+           dired-rsync
+           diredfl
+           dired-subtree
+           eshell-git-prompt
+           eshell-syntax-highlighting
+           capf-autosuggest
+           orderless
+           vertico
+           corfu
+           corfu-terminal
+           cape
+           eat))
+  (eval `(use-package ,package :ensure t :defer t)))
 
 (when (executable-find "fd")
-  (rc/require 'fd-dired) 
+  (use-package fd-dired :ensure t :defer t)
   (require 'fd-dired))
 
 (require 'init-base)

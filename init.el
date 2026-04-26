@@ -46,7 +46,6 @@
   'treesit-auto
   'ace-window
   'exec-path-from-shell
-  'general
 
   'nerd-icons
   'nerd-icons-completion

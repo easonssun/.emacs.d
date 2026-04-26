@@ -10,178 +10,126 @@
   (interactive)
   (capitalize-word -1))
 
-;; 在 evil 加载后配置 general
-(with-eval-after-load 'evil
-  ;; 定义一个全局前缀键 "SPC"
-  (general-create-definer my-leader-def
-    :prefix "SPC")
-  
-  (general-create-definer my-local-leader-def
-    :prefix ",")
-  
-  (my-leader-def
-    :states 'normal
-    "f" 'eglot-format)
-  
-  (general-def
-    ;; C-x bindings in `ctl-x-map'
-    "C-;" 'embark-act
-    "C-h b" 'embark-bindings
+(defun init-keymaps--bind-diff-hl-local ()
+  (dolist (state '(normal insert visual))
+    (evil-define-key state 'local (kbd "M-p") 'diff-hl-previous-hunk)
+    (evil-define-key state 'local (kbd "M-n") 'diff-hl-next-hunk)
+    (evil-define-key state 'local (kbd "M-,") 'diff-hl-revert-hunk)
+    (evil-define-key state 'local (kbd "M-.") 'diff-hl-stage-dwim)
+    (evil-define-key state 'local (kbd "C-c h v") 'diff-hl-show-hunk)))
 
-    "M-k" 'mc/mark-previous-like-this
-    "M-j" 'mc/mark-next-like-this
-    "M-<down>" 'mc/mark-next-like-this-word
-    
-    "C-x C-r" 'projectile-switch-project     ; 使用 ibuffer
-    "C-x C-b" 'ibuffer     ; 使用 ibuffer
-    "C-x M-:" 'consult-complex-command     ;; orig. repeat-complex-command
-    "C-x b" 'consult-buffer                ;; orig. switch-to-buffer
-    "C-x 4 b" 'consult-buffer-other-window ;; orig. switch-to-buffer-other-window
-    "C-x 5 b" 'consult-buffer-other-frame  ;; orig. switch-to-buffer-other-frame
-    "C-x t b" 'consult-buffer-other-tab    ;; orig. switch-to-buffer-other-tab
-    "C-x p b" 'consult-project-buffer      ;; orig. project-switch-to-buffer
-    "C-x C-k" 'centaur-tabs-kill-all-buffers-in-current-group
-    "C-x C-o" 'centaur-tabs-kill-other-buffers-in-current-group
-    ;; Custom M-# bindings for fast register access
-    "M-#" 'consult-register-load
-    "M-'" 'consult-register-store          ;; orig. abbrev-prefix-mark (unrelated)
-    "C-M-#" 'consult-register
-    ;; C-c bindings in `mode-specific-map'
-    "C-c M-x" 'consult-mode-command
-    "C-c h" 'consult-history
-    "C-c k" 'consult-kmacro
-    "C-c c" 'compile
-    "C-c m" 'consult-man
-    "C-c i" 'consult-info
-    "C-c e" 'eshell
-    "C-c u" 'winner-undo
-    "C-c r" 'winner-redo
-    
-    "M-y"  'consult-yank-pop                ;; orig. yank-pop
-    "C-:" 'shell-command
-    
-    ;; "M-i"  'compile
-                                        ; M-o bindings in `open-map'
-    ;; "M-o e" 'eshell
-    ;; "M-o t" 'eat
-    
-                                        ; M-g bindings in `goto-map'
-    "M-g b" 'consult-bookmark            ;; orig. bookmark-jump
-    "M-g e"  'consult-compile-error
-    "M-g f"  'consult-flymake               ;; Alternative: consult-flycheck
-    "M-g g"  'consult-goto-line             ;; orig. goto-line
-    "M-g o"  'consult-outline               ;; Alternative: consult-org-heading
-    "M-g m"  'consult-mark
-    "M-g k"  'consult-global-mark
-    "M-g i"  'consult-imenu
-    "M-g I"  'consult-imenu-multi
-    "M-g w"  'ace-window
-    "M-g t"  'centaur-tabs-ace-jump
-    ;; "M-g s"  'centaur-tabs-switch-group ;; use consult-buffer minibuffer
-    "M-g p"  'consult-projectile
-    
-                                        ; M-s bindings in `search-map'
-    "M-s f"  'consult-fd                  ;; Alternative: consult-fd
-    "M-s c"  'consult-locate
-    "M-s g"  'consult-grep
-    "M-s G"  'consult-git-grep
-    "M-s r"  'consult-ripgrep
-    "M-s l"  'consult-line
-    "M-s L"  'consult-line-multi
-    "M-s k"  'consult-keep-lines
-    "M-s u"  'consult-focus-lines
-                                        ; Isearch integration
-    "M-s e"  'consult-isearch-history
-    
-    ;; use M-g s instead
-    ;; "M-<" 'centaur-tabs-backward-group
-    ;; "M->" 'centaur-tabs-forward-group
-    "C->" 'centaur-tabs-forward-tab
-    "C-<" 'centaur-tabs-backward-tab
-    
-    "C-M-k" 'bookmark-delete
-    "C--" 'popper-toggle
-    "C-=" 'popper-cycle
-    )
-  
-  (general-def 
-    :states 'insert
-    :keymaps 'eshell-mode-map
-    ;; "C-u" 'evil-delete-back-to-indentation
-    "C-p" 'eshell-previous-matching-input-from-input ; 搜索历史
-    "C-n" 'eshell-next-matching-input-from-input   ; 搜索历史
-    "C-r" 'consult-history)
-  
-  (general-def 
-    ;; :states '(normal insert visual)
-    :keymaps 'capf-autosuggest-active-mode-map
-    "C-f" 'capf-autosuggest-end-of-line)
-  
-  (general-def
-    :keymaps 'dired-mode-map
-    :states '(normal insert visual)
-    "C-a" 'dired-create-empty-file
-    "C-d" 'dired-create-directory)
-  
-  (general-def
-    :keymaps 'eat-mode-map
-    "M-g w"  'ace-window
-    "C-w C-w"  'other-window
-    "C-w c"  'delete-window
-    "C--"  'popper-toggle
-    "M--"  'popper-cycle)
-  ;; (define-key eat-mode-map (kbd "M--")     #'popper-cycle)
-  
-  (general-def
-    ;; :states 指定在哪些 Evil 状态下生效。
-    ;; 如果你希望所有模式（包括 Insert）都能用，可以写 '(normal insert) 或去掉这行。
-    :states '(normal insert visual) 
-    ;; :hooks 自动处理 add-hook 的逻辑
-    :hooks '(prog-mode-hook text-mode-hook)
-    
-    "M-p" 'diff-hl-previous-hunk
-    "M-n" 'diff-hl-next-hunk
-    "M-," 'diff-hl-revert-hunk
-    ;; "M-." 'diff-hl-stage-current-hunk
-    "M-." 'diff-hl-stage-dwim
-    "C-c h v" 'diff-hl-show-hunk)
-  
-  (general-def
-    :states 'normal
-    "gh" 'eldoc-mouse-pop-doc-at-cursor
-    ;; "]b" 'centaur-tabs-forward-tab
-    ;; "[b" 'centaur-tabs-backward-tab
-    ;;"C-u" 'evil-scroll-up
-    ;;"C-d" 'evil-scroll-down
-    )
-  
-  (general-def
-    :keymaps 'minuet-active-mode-map
-    :states 'insert
-    "<TAB>" 'minuet-accept-suggestion
-    "M-p" 'minuet-previous-suggestion
-    "M-n" 'minuet-next-suggestion)
-  
-  (general-def
-    :states 'visual
-    "Y" 'clipboard-kill-ring-save)
-  
-  (general-def
-    :states '(normal visual)
-    "C-M-n" 'evil-mc-make-and-goto-next-match
-    "C-M-m" 'evil-mc-skip-and-goto-next-match)
-  
-  (general-def
-    :states 'insert
-    "C-v" 'clipboard-yank
-    "C-a" 'beginning-of-line
-    "C-e" 'end-of-line
-    "C-k" 'kill-line
-    ;;"C-u" 'evil-delete-back-to-indentation
-    "C-d" 'delete-char
-    "M-u" 'custom/upcase-back
-    "M-l" 'custom/downcase-back
-    "M-c" 'custom/capitalize-back
-    ))
+;; 在 evil 加载后用原生 keymap API 绑定（global-set-key / define-key / evil-define-key）
+(with-eval-after-load 'evil
+  (evil-define-key 'normal 'global (kbd "SPC f") 'eglot-format)
+
+  ;; 全局键（原 general-def 无 :keymaps）
+  (global-set-key (kbd "C-;") 'embark-act)
+  (global-set-key (kbd "C-h b") 'embark-bindings)
+
+  (global-set-key (kbd "M-k") 'mc/mark-previous-like-this)
+  (global-set-key (kbd "M-j") 'mc/mark-next-like-this)
+  (global-set-key (kbd "M-<down>") 'mc/mark-next-like-this-word)
+
+  (global-set-key (kbd "C-x C-r") 'projectile-switch-project)
+  (global-set-key (kbd "C-x C-b") 'ibuffer)
+  (global-set-key (kbd "C-x M-:") 'consult-complex-command)
+  (global-set-key (kbd "C-x b") 'consult-buffer)
+  (global-set-key (kbd "C-x 4 b") 'consult-buffer-other-window)
+  (global-set-key (kbd "C-x 5 b") 'consult-buffer-other-frame)
+  (global-set-key (kbd "C-x t b") 'consult-buffer-other-tab)
+  (global-set-key (kbd "C-x p b") 'consult-project-buffer)
+  (global-set-key (kbd "C-x C-k") 'centaur-tabs-kill-all-buffers-in-current-group)
+  (global-set-key (kbd "C-x C-o") 'centaur-tabs-kill-other-buffers-in-current-group)
+  (global-set-key (kbd "M-#") 'consult-register-load)
+  (global-set-key (kbd "M-'") 'consult-register-store)
+  (global-set-key (kbd "C-M-#") 'consult-register)
+  (global-set-key (kbd "C-c M-x") 'consult-mode-command)
+  (global-set-key (kbd "C-c h") 'consult-history)
+  (global-set-key (kbd "C-c k") 'consult-kmacro)
+  (global-set-key (kbd "C-c c") 'compile)
+  (global-set-key (kbd "C-c m") 'consult-man)
+  (global-set-key (kbd "C-c i") 'consult-info)
+  (global-set-key (kbd "C-c e") 'eshell)
+  (global-set-key (kbd "C-c u") 'winner-undo)
+  (global-set-key (kbd "C-c r") 'winner-redo)
+
+  (global-set-key (kbd "M-y") 'consult-yank-pop)
+  (global-set-key (kbd "C-:") 'shell-command)
+
+  (global-set-key (kbd "M-g b") 'consult-bookmark)
+  (global-set-key (kbd "M-g e") 'consult-compile-error)
+  (global-set-key (kbd "M-g f") 'consult-flymake)
+  (global-set-key (kbd "M-g g") 'consult-goto-line)
+  (global-set-key (kbd "M-g o") 'consult-outline)
+  (global-set-key (kbd "M-g m") 'consult-mark)
+  (global-set-key (kbd "M-g k") 'consult-global-mark)
+  (global-set-key (kbd "M-g i") 'consult-imenu)
+  (global-set-key (kbd "M-g I") 'consult-imenu-multi)
+  (global-set-key (kbd "M-g w") 'ace-window)
+  (global-set-key (kbd "M-g t") 'centaur-tabs-ace-jump)
+  (global-set-key (kbd "M-g p") 'consult-projectile)
+
+  (global-set-key (kbd "M-s f") 'consult-fd)
+  (global-set-key (kbd "M-s c") 'consult-locate)
+  (global-set-key (kbd "M-s g") 'consult-grep)
+  (global-set-key (kbd "M-s G") 'consult-git-grep)
+  (global-set-key (kbd "M-s r") 'consult-ripgrep)
+  (global-set-key (kbd "M-s l") 'consult-line)
+  (global-set-key (kbd "M-s L") 'consult-line-multi)
+  (global-set-key (kbd "M-s k") 'consult-keep-lines)
+  (global-set-key (kbd "M-s u") 'consult-focus-lines)
+  (global-set-key (kbd "M-s e") 'consult-isearch-history)
+
+  (global-set-key (kbd "C->") 'centaur-tabs-forward-tab)
+  (global-set-key (kbd "C-<") 'centaur-tabs-backward-tab)
+
+  (global-set-key (kbd "C-M-k") 'bookmark-delete)
+  (global-set-key (kbd "C--") 'popper-toggle)
+  (global-set-key (kbd "C-=") 'popper-cycle)
+
+  (with-eval-after-load 'eshell
+    (evil-define-key 'insert eshell-mode-map (kbd "C-p") 'eshell-previous-matching-input-from-input)
+    (evil-define-key 'insert eshell-mode-map (kbd "C-n") 'eshell-next-matching-input-from-input)
+    (evil-define-key 'insert eshell-mode-map (kbd "C-r") 'consult-history))
+
+  (with-eval-after-load 'capf-autosuggest
+    (evil-define-key 'insert capf-autosuggest-active-mode-map (kbd "C-f") 'capf-autosuggest-end-of-line))
+
+  (dolist (state '(normal insert visual))
+    (evil-define-key state dired-mode-map (kbd "C-a") 'dired-create-empty-file)
+    (evil-define-key state dired-mode-map (kbd "C-d") 'dired-create-directory))
+
+  (with-eval-after-load 'eat
+    (define-key eat-mode-map (kbd "M-g w") 'ace-window)
+    (define-key eat-mode-map (kbd "C-w C-w") 'other-window)
+    (define-key eat-mode-map (kbd "C-w c") 'delete-window)
+    (define-key eat-mode-map (kbd "C--") 'popper-toggle)
+    (define-key eat-mode-map (kbd "M--") 'popper-cycle))
+
+  (add-hook 'prog-mode-hook #'init-keymaps--bind-diff-hl-local)
+  (add-hook 'text-mode-hook #'init-keymaps--bind-diff-hl-local)
+
+  (evil-define-key 'normal 'global (kbd "gh") 'eldoc-mouse-pop-doc-at-cursor)
+
+  (with-eval-after-load 'minuet
+    (evil-define-key 'insert minuet-active-mode-map (kbd "<tab>") 'minuet-accept-suggestion)
+    (evil-define-key 'insert minuet-active-mode-map (kbd "M-p") 'minuet-previous-suggestion)
+    (evil-define-key 'insert minuet-active-mode-map (kbd "M-n") 'minuet-next-suggestion))
+
+  (evil-define-key 'visual 'global (kbd "Y") 'clipboard-kill-ring-save)
+
+  (evil-define-key 'normal 'global (kbd "C-M-n") 'evil-mc-make-and-goto-next-match)
+  (evil-define-key 'visual 'global (kbd "C-M-n") 'evil-mc-make-and-goto-next-match)
+  (evil-define-key 'normal 'global (kbd "C-M-m") 'evil-mc-skip-and-goto-next-match)
+  (evil-define-key 'visual 'global (kbd "C-M-m") 'evil-mc-skip-and-goto-next-match)
+
+  (evil-define-key 'insert 'global (kbd "C-v") 'clipboard-yank)
+  (evil-define-key 'insert 'global (kbd "C-a") 'beginning-of-line)
+  (evil-define-key 'insert 'global (kbd "C-e") 'end-of-line)
+  (evil-define-key 'insert 'global (kbd "C-k") 'kill-line)
+  (evil-define-key 'insert 'global (kbd "C-d") 'delete-char)
+  (evil-define-key 'insert 'global (kbd "M-u") 'custom/upcase-back)
+  (evil-define-key 'insert 'global (kbd "M-l") 'custom/downcase-back)
+  (evil-define-key 'insert 'global (kbd "M-c") 'custom/capitalize-back))
 
 (provide 'init-keymaps)
